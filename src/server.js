@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import bodyParser from 'body-parser'; // Correct import
 import routes from './routes/index';
-import dbClient from './utils/db';
+import dbClient from './config/db';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -20,7 +21,8 @@ const corsOptions = {
 app.use(cors(corsOptions)); // Use CORS middleware
 
 // Middleware to parse JSON
-app.use(express.json());
+app.use(express.json()); // Use express's built-in JSON parser
+app.use(bodyParser.json()); // Use body-parser's JSON parser if needed for other parsing options
 
 // Route handling
 app.use('/', routes);

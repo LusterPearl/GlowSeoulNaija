@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import dbClient from '../utils/db';
-import redisClient from '../utils/redis';
+import bodyParser from 'body-parser'; // Import body-parser
+import dbClient from '../config/db';
+import redisClient from '../config/redis';
 
 const app = express();
 const router = express.Router();
@@ -12,8 +13,8 @@ dotenv.config();
 
 // Middleware
 app.use(cors()); // Enable CORS for all routes
-app.use(express.json()); // Parse JSON bodies of requests
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(bodyParser.json()); // Parse JSON bodies of requests
+app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Define routes
 app.use('/api', router); // Mount the router under /api
