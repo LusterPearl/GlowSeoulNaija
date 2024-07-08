@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import dbClient from '../config/db';
-import redisClient from '../config/redis';
+import dbClient from '../utils/db';
+import redisClient from '../utils/redis';
 
 const app = express();
 const router = express.Router();
