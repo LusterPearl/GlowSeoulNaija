@@ -1,5 +1,4 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import dbClient from '../config/db'; // Adjust the path as per your project structure
@@ -13,12 +12,10 @@ dotenv.config();
 
 // Middleware
 app.use(cors()); // Enable CORS for all routes
-app.use(bodyParser.json()); // Parse JSON bodies of requests
-app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(express.json()); // Parse JSON bodies of requests
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Define routes
-router.use('/users', userRoutes);
-router.use('/products', productRoutes);
 app.use('/api', router); // Mount the router under /api
 
 // Database connection check (assuming dbClient emits 'connected' event)
