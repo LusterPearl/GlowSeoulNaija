@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import dbClient from '../config/db'; // Adjust the path as per your project structure
-import redisClient from '../config/redis'; // Adjust the path as per your project structure
+import dbClient from '../config/db';
+import redisClient from '../config/redis';
 
 const app = express();
 const router = express.Router();
