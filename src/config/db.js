@@ -22,6 +22,10 @@ class DBClient extends EventEmitter {
       });
   }
 
+  connect() {
+    return this.client.connect();
+  }
+
   isAlive() {
     return !!this.db;
   }
