@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import bodyParser from 'body-parser'; // Import body-parser
+import bodyParser from 'body-parser';
 import dbClient from '../config/db';
 import redisClient from '../config/redis';
 
