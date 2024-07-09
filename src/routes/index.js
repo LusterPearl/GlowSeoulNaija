@@ -25,7 +25,7 @@ dbClient.on('connected', () => {
 });
 
 // Redis connection check (assuming redisClient is already connected)
-redisClient.client.on('connect', () => {
+redisClient.client.on('ready', () => {
   console.log('Connected to Redis');
 });
 
