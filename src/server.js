@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import routes from './routes/index';
 import dbClient from './config/db';
-import redisClient from './redis'; // Import Redis client
+import redisClient from './config/redis';
 
 // Load environment variables from .env file
 dotenv.config();
