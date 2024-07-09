@@ -28,8 +28,13 @@ app.use(bodyParser.json()); // Use body-parser's JSON parser if needed for other
 app.use('/', routes);
 
 // Start the server once the database is connected
-dbClient.on('connected', () => {
-  app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+dbClient.connect()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Failed to connect to MongoDB:', err);
+    process.exit(1);
   });
-});
