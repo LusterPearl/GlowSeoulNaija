@@ -3,7 +3,7 @@
 import { MongoClient, ObjectID } from 'mongodb';
 import EventEmitter from 'events';
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/GlowSeoulNaija'; // Update with your MongoDB URI
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/GlowSeoulNaija';
 
 class DBClient extends EventEmitter {
   constructor() {
@@ -13,7 +13,7 @@ class DBClient extends EventEmitter {
     this.client.connect()
       .then((client) => {
         console.log('MongoDB connected successfully');
-        this.db = client.db('GlowSeoulNaija'); // Replace with your database name
+        this.db = client.db('GlowSeoulNaija');
         this.emit('connected');
       })
       .catch((err) => {
