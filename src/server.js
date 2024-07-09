@@ -28,26 +28,24 @@ app.use(bodyParser.json()); // Use body-parser's JSON parser if needed for other
 // Route handling
 app.use('/', routes);
 
-// Start both MongoDB and Redis connections
-Promise.all([dbClient.connect(), redisClient.connect()])
+// Start the server once the database is connected
+dbClient.connect()
   .then(() => {
-    // Both MongoDB and Redis are connected
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
     });
   })
   .catch((err) => {
-    console.error('Failed to start server:', err);
+    console.error('Failed to connect to MongoDB:', err);
     process.exit(1);
   });
 
-// Handle errors from MongoDB and Redis
-dbClient.on('error', (err) => {
-  console.error('MongoDB Connection Error:', err);
-  process.exit(1);
+// Connect to Redis separately
+redisClient.client.on('connect', () => {
+  console.log('Redis connected successfully');
+  // Optionally start the server here, or perform other operations once Redis is connected
 });
 
-redisClient.on('error', (err) => {
-  console.error('Redis Connection Error:', err);
-  process.exit(1);
+redisClient.client.on('error', (err) => {
+  console.error('Redis error:', err);
 });
