@@ -34,7 +34,7 @@ dbClient.connect()
       console.log(`Server is running on http://localhost:${port}`);
     });
   })
-  .catch((err) => {
+  .catch((err)   => {
     console.error('Failed to connect to MongoDB:', err);
     process.exit(1);
   });

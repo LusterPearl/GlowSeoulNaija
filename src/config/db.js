@@ -1,23 +1,47 @@
-// src/config/db.js
-import { MongoClient } from 'mongodb';
+// dbClient.js
 
-const mongoURI = process.env.MONGO_URI;
+import { MongoClient, ObjectID } from 'mongodb';
+import EventEmitter from 'events';
 
-const client = new MongoClient(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/GlowSeoulNaija'; // Update with your MongoDB URI
 
-async function connect() {
-  try {
-    await client.connect();
-    console.log('Connected to MongoDB');
-  } catch (err) {
-    console.error('MongoDB connection error:', err);
-    process.exit(1); // Exit process on failure
+class DBClient extends EventEmitter {
+  constructor() {
+    super();
+    this.client = new MongoClient(MONGO_URI, { useUnifiedTopology: true });
+
+    this.client.connect()
+      .then((client) => {
+        console.log('MongoDB connected successfully');
+        this.db = client.db('GlowSeoulNaija'); // Replace with your database name
+        this.emit('connected');
+      })
+      .catch((err) => {
+        console.error('Failed to connect to MongoDB:', err);
+        this.emit('error', err);
+      });
+  }
+
+  isAlive() {
+    return !!this.db;
+  }
+
+  getObjectId(id) {
+    return new ObjectID(id);
+  }
+
+  close() {
+    if (this.client) {
+      this.client.close();
+      console.log('MongoDB connection closed');
+    }
   }
 }
 
-connect();
+const dbClient = new DBClient();
 
-export default client;
+dbClient.on('error', (err) => {
+  console.error('MongoDB Connection Error:', err);
+});
+
+export default dbClient;
