@@ -1,6 +1,4 @@
-// db.js
-
-/* eslint-disable class-methods-use-this */
+// Database
 import { MongoClient, ObjectID } from 'mongodb';
 import EventEmitter from 'events';
 
@@ -13,7 +11,7 @@ class DBClient extends EventEmitter {
     this.client.connect()
       .then((client) => {
         console.log('MongoDB connected successfully');
-        this.db = client.db('GlowSeoulNaija'); // Adjust database name accordingly
+        this.db = client.db('GlowSeoulNaija');
         this.emit('connected');
       })
       .catch((err) => {
@@ -25,7 +23,7 @@ class DBClient extends EventEmitter {
   connect() {
     return this.client.connect();
   }
-  
+
   isAlive() {
     return !!this.db;
   }

@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import bodyParser from 'body-parser'; // Correct import
+import bodyParser from 'body-parser';
 import routes from './routes/index';
 import dbClient from './config/db';
+import redisClient from './redis'; // Import Redis client
 
 // Load environment variables from .env file
 dotenv.config();
@@ -27,14 +28,26 @@ app.use(bodyParser.json()); // Use body-parser's JSON parser if needed for other
 // Route handling
 app.use('/', routes);
 
-// Start the server once the database is connected
-dbClient.connect()
+// Start both MongoDB and Redis connections
+Promise.all([dbClient.connect(), redisClient.connect()])
   .then(() => {
+    // Both MongoDB and Redis are connected
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
     });
   })
-  .catch((err)   => {
-    console.error('Failed to connect to MongoDB:', err);
+  .catch((err) => {
+    console.error('Failed to start server:', err);
     process.exit(1);
   });
+
+// Handle errors from MongoDB and Redis
+dbClient.on('error', (err) => {
+  console.error('MongoDB Connection Error:', err);
+  process.exit(1);
+});
+
+redisClient.on('error', (err) => {
+  console.error('Redis Connection Error:', err);
+  process.exit(1);
+});
