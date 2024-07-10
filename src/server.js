@@ -40,13 +40,12 @@ dbClient.connect()
     process.exit(1);
   });
 
-// Connect to Redis separately
+/**Connect to Redis separately
 redisClient.client.on('connect', () => {
   console.log('Redis connected successfully');
   // Optionally start the server here, or perform other operations once Redis is connected
 });
-
-/**redisClient.client.on('error', (err) => {
- console.error('Redis error:', err);
-});
 */
+redisClient.client.on('error', (err) => {
+  console.error('Redis error:', err);
+});
