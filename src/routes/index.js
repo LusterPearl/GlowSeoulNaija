@@ -9,10 +9,4 @@ const router = express.Router();
 
 // Endpoint: GET /status
 
-// Auth endpoints
-
-// Journal Entry Routes
-
-// User services Entry routes
-
 module.exports = router;
