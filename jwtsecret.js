@@ -1,8 +1,6 @@
-import crypto from 'crypto';
+const crypto = require('crypto');
 
-// Function to generate JWT secret
+// Generate a random secret of appropriate length (e.g., 32 characters)
 const generateJWTSecret = () => crypto.randomBytes(32).toString('hex');
 
-console.log(generateJWTSecret()); 
-
-export default generateJWTSecret;
+console.log(generateJWTSecret()); // Print the generated secret
