@@ -5,7 +5,6 @@ import bodyParser from 'body-parser';
 import routes from './routes/index';
 import dbClient from './config/db';
 import redisClient from './config/redis';
-import setupJWT from './config/jwt';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -32,9 +31,6 @@ app.use('/', routes);
 // Start the server once the database is connected
 dbClient.connect()
   .then(() => {
-    // Setup JWT middleware after DB connection
-    setupJWT(app);
-
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
     });
