@@ -11,6 +11,6 @@ router.get('/profile', authMiddleware, (req, res) => {
 });
 
 // Payment route
-router.post('/create-payment-intent', createPaymentIntent); // Use the imported functio
+router.post('/create-payment-intent', createPaymentIntent);
 
 module.exports = router;
