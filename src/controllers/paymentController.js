@@ -10,7 +10,7 @@ const createPaymentIntent = async (req, res) => {
 
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount * 100, // Amount in the smallest currency unit (kobo for NGN)
+      amount, // Amount in naira
       currency: 'ngn',
     });
 
