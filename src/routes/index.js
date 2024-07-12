@@ -1,6 +1,6 @@
 import express from 'express';
 import authMiddleware from '../middleware/authMiddleware';
-import paymentController from '../controllers/paymentController';
+import createPaymentIntent from '../controllers/paymentController';
 
 const router = express.Router();
 
@@ -11,6 +11,6 @@ router.get('/profile', authMiddleware, (req, res) => {
 });
 
 // Payment route
-router.post('/create-payment-intent', paymentController.createPaymentIntent);
+router.post('/create-payment-intent', createPaymentIntent); // Use the imported functio
 
 module.exports = router;
