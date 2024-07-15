@@ -1,13 +1,12 @@
 import express from 'express';
-import authMiddleware from '../middleware/authMiddleware';
+import authenticate from '../middleware/authMiddleware';
 import createPaymentIntent from '../controllers/paymentController';
 import AuthController from '../controllers/authController';
 
 const router = express.Router();
 
-// protected route that requires authentication
-router.get('/profile', authMiddleware, (req, res) => {
-  // Access authenticated user via req.user
+// Protected route that requires authentication
+router.get('/profile', authenticate, (req, res) => {
   res.json({ message: `Welcome, ${req.user.username}!` });
 });
 
@@ -21,9 +20,9 @@ router.post('/auth/register', (req, res) => {
 });
 
 // Login route
-router.post('/login', AuthController.login);
+router.post('/auth/login', AuthController.login);
 
 // Logout route
-router.post('/logout', verifyToken, AuthController.logout);
+router.post('/auth/logout', authenticate, AuthController.logout); // Use authenticate here
 
-module.exports = router;
+export default router;
