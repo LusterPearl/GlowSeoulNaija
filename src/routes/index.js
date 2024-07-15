@@ -15,7 +15,7 @@ router.get('/test-auth', authenticate, (req, res) => {
 router.post('/create-payment-intent', createPaymentIntent);
 
 // Registration route
-router.post('/register', AuthController.register); // Changed to /register
+router.post('/register', AuthController.register);
 
 // Login route
 router.post('/login', AuthController.login);
@@ -27,4 +27,5 @@ router.post('/logout', authenticate, AuthController.logout);
 router.get('/profile', authenticate, UserController.getProfile);
 router.put('/profile', authenticate, UserController.updateProfile);
 router.delete('/profile', authenticate, UserController.deleteProfile);
+
 export default router;
