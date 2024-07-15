@@ -1,4 +1,4 @@
-// models/user.js
+// user
 import dbClient from '../config/db';
 
 const USERS_COLLECTION = 'users';
