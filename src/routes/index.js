@@ -24,4 +24,4 @@ router.post('/login', AuthController.login);
 // Logout route
 router.post('/logout', verifyToken, AuthController.logout);
 
-export default router;
+module.exports = router;
