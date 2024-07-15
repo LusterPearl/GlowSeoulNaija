@@ -9,13 +9,13 @@ import dbClient from '../config/db';
  */
 class AuthController {
   /**
-     * Handles user registration.
-     * @async
-     * @method
-     * @param {Object} req - Express request object.
-     * @param {Object} res - Express response object.
-     * @returns {Promise<void>}
-     */
+   * Handles user registration.
+   * @async
+   * @method
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {Promise<void>}
+   */
   async register(req, res) {
     const { email, password, username } = req.body;
 
@@ -39,13 +39,13 @@ class AuthController {
   }
 
   /**
-     * Handles user login.
-     * @async
-     * @method
-     * @param {Object} req - Express request object.
-     * @param {Object} res - Express response object.
-     * @returns {Promise<void>}
-     */
+   * Handles user login.
+   * @async
+   * @method
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {Promise<void>}
+   */
   async login(req, res) {
     const { email, password } = req.body;
 
@@ -69,13 +69,13 @@ class AuthController {
   }
 
   /**
-     * Handles user logout.
-     * @async
-     * @method
-     * @param {Object} req - Express request object.
-     * @param {Object} res - Express response object.
-     * @returns {Promise<void>}
-     */
+   * Handles user logout.
+   * @async
+   * @method
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {Promise<void>}
+   */
   async logout(req, res) {
     const token = extractToken(req.headers);
     if (!token) {
