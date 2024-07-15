@@ -1,6 +1,8 @@
 import express from 'express';
 import authMiddleware from '../middleware/authMiddleware';
 import createPaymentIntent from '../controllers/paymentController';
+import AuthController from '../controllers/authController';
+import { verifyToken } from '../config/jwt';
 
 const router = express.Router();
 
@@ -12,5 +14,14 @@ router.get('/profile', authMiddleware, (req, res) => {
 
 // Payment route
 router.post('/create-payment-intent', createPaymentIntent);
+
+// Registration route
+router.post('/register', AuthController.register);
+
+// Login route
+router.post('/login', AuthController.login);
+
+// Logout route
+router.post('/logout', verifyToken, AuthController.logout);
 
 module.exports = router;
