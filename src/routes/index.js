@@ -16,7 +16,13 @@ router.get('/profile', authMiddleware, (req, res) => {
 router.post('/create-payment-intent', createPaymentIntent);
 
 // Registration route
-router.post('/register', AuthController.register);
+// router.post('/register', AuthController.register);
+
+// Payment route
+router.post('/register', (req, res) => {
+  console.log('Register endpoint hit');
+  AuthController.register(req, res);
+});
 
 // Login route
 router.post('/login', AuthController.login);
