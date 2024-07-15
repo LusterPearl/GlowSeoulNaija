@@ -16,13 +16,7 @@ router.get('/profile', authMiddleware, (req, res) => {
 router.post('/create-payment-intent', createPaymentIntent);
 
 // Registration route
-// router.post('/register', AuthController.register);
-
-// Payment route
-router.post('/register', (req, res) => {
-  console.log('Register endpoint hit');
-  AuthController.register(req, res);
-});
+router.post('/register', AuthController.register);
 
 // Login route
 router.post('/login', AuthController.login);
@@ -30,4 +24,4 @@ router.post('/login', AuthController.login);
 // Logout route
 router.post('/logout', verifyToken, AuthController.logout);
 
-module.exports = router;
+export default router;
