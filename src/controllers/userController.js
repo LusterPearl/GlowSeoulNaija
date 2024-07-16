@@ -2,8 +2,8 @@ import User from '../models/user';
 
 class UserController {
   static async getProfile(req, res) {
-    const userId = req.user.id; // Ensure req.user contains user info from middleware
-
+    const userId = req.user.id;
+    console.log('User ID:', userId);
     try {
       const user = await User.findById(userId);
       if (!user) {
