@@ -1,4 +1,4 @@
-import { verifyToken, isTokenBlacklisted } from '../config/jwt.js';
+import { verifyToken, isTokenBlacklisted } from '../config/jwt';
 
 /**
  * Middleware to authenticate incoming requests using JWT.
