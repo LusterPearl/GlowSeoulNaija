@@ -1,6 +1,7 @@
 // src/seedProduct.js
-import dbClient from './config/db.js';
-import Product from './models/product.js';
+import dbClient from './config/db.mjs';
+import Product from './models/product.mjs';
+
 
 const seedProducts = async () => {
   const products = [

@@ -12,7 +12,7 @@
         "dev-unix": "MONGO_URI=mongodb://Oluwatosin:lusterpearl145671@localhost:27017/GlowSeoulNaija nodemon --exec babel-node --presets @babel/preset-env",
         "dev-win": "cross-env MONGO_URI=mongodb://Oluwatosin:lusterpearl145671@localhost:27017/GlowSeoulNaija nodemon --exec babel-node --presets @babel/preset-env",
         "test": "./node_modules/.bin/mocha --require @babel/register --exit",
-        "seed": "node src/seedProduct.js"
+        "seed": "node src/seedProduct.mjs"
     },
     "author": {
         "name": "Salami Oluwatosin",
