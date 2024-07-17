@@ -26,7 +26,7 @@ class Product {
 
   static async findById(id) {
     const { db } = dbClient;
-    return db.collection(PRODUCTS_COLLECTION).findOne({ _id: dbClient.ObjectID(id) });
+    return db.collection(PRODUCTS_COLLECTION).findOne({ _id: dbClient.ObjectId(id) });
   }
 
   static async findAll() {
@@ -37,7 +37,7 @@ class Product {
   static async update(id, newData) {
     const { db } = dbClient;
     const result = await db.collection(PRODUCTS_COLLECTION).updateOne(
-      { _id: dbClient.ObjectID(id) },
+      { _id: dbClient.ObjectId(id) },
       { $set: newData },
     );
     return result.modifiedCount > 0;
@@ -45,7 +45,7 @@ class Product {
 
   static async delete(id) {
     const { db } = dbClient;
-    const objectId = dbClient.ObjectID(id); // Define objectId first
+    const objectId = dbClient.ObjectId(id); // Define objectId first
     const result = await db.collection(PRODUCTS_COLLECTION).deleteOne({
       _id: objectId,
     });

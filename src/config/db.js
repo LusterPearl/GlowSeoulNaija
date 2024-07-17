@@ -1,5 +1,6 @@
 // Database
-import { MongoClient, ObjectID } from 'mongodb';
+import pkg from 'mongodb';
+const { MongoClient, ObjectId } = pkg;
 import EventEmitter from 'events';
 
 const { MONGO_URI } = process.env;
@@ -36,7 +37,7 @@ class DBClient extends EventEmitter {
       return count;
     } catch (error) {
       console.error('Error fetching user count:', error);
-      throw error; // Propagate the error to handle it in the calling function
+      throw error;
     }
   }
 
@@ -57,7 +58,7 @@ class DBClient extends EventEmitter {
     try {
       const product = await this.client.db()
         .collection('products')
-        .findOne({ _id: ObjectID(productId) });
+        .findOne({ _id: ObjectId(productId) });
       return product;
     } catch (error) {
       console.error('Error fetching product by ID:', error);
@@ -81,7 +82,7 @@ class DBClient extends EventEmitter {
     try {
       const result = await this.client.db()
         .collection('products')
-        .updateOne({ _id: ObjectID(productId) }, { $set: productData });
+        .updateOne({ _id: ObjectId(productId) }, { $set: productData });
       return result.modifiedCount;
     } catch (error) {
       console.error('Error updating product:', error);
@@ -93,7 +94,7 @@ class DBClient extends EventEmitter {
     try {
       const result = await this.client.db()
         .collection('products')
-        .deleteOne({ _id: ObjectID(productId) });
+        .deleteOne({ _id: ObjectId(productId) });
       return result.deletedCount;
     } catch (error) {
       console.error('Error deleting product:', error);
@@ -102,7 +103,7 @@ class DBClient extends EventEmitter {
   }
 
   ObjectID(id) {
-    return new ObjectID(id);
+    return new ObjectId(id);
   }
 }
 
