@@ -5,6 +5,9 @@ import EventEmitter from 'events';
 
 const { MONGO_URI } = process.env;
 
+// Log the MongoDB URI
+console.log('MongoDB URI:', MONGO_URI);
+
 class DBClient extends EventEmitter {
   constructor() {
     super();

@@ -64,18 +64,16 @@ const seedProducts = async () => {
   ];
 
   try {
-    await dbClient.connect(); // Connect to the database
-
+    // No need to connect again
     for (const product of products) {
-      await Product.create(product); // Create each product
+      await Product.create(product); // Ensure this method is correctly defined
     }
 
     console.log('Products seeded successfully.');
   } catch (error) {
     console.error('Error seeding products:', error);
   } finally {
-    await dbClient.close();
-
+    await dbClient.client.close(); // Use client.close() instead
   }
 };
 
