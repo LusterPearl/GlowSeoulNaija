@@ -1,5 +1,4 @@
-import Product from '../models/product';
-import dbClient from '../config/db.js'; // Make sure to import dbClient if needed
+import Product from '../models/product.js';
 
 class ProductController {
   static async createProduct(req, res) {

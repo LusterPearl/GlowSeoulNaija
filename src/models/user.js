@@ -1,5 +1,5 @@
 // user
-import dbClient from '../config/db';
+import dbClient from '../config/db.js';
 
 const USERS_COLLECTION = 'users';
 
