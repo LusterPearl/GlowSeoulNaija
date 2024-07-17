@@ -1,5 +1,5 @@
 // models/product.js
-import dbClient from '../config/db';
+import dbClient from '../config/db.js';
 
 const PRODUCTS_COLLECTION = 'products';
 

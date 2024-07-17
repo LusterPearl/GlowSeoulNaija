@@ -1,6 +1,6 @@
 // src/seedProduct.js
 import dbClient from './config/db.js';
-import Product from './models/product';
+import Product from './models/product.js';
 
 const seedProducts = async () => {
   const products = [
@@ -74,7 +74,8 @@ const seedProducts = async () => {
   } catch (error) {
     console.error('Error seeding products:', error);
   } finally {
-    await dbClient.disconnect(); // Disconnect from the database
+    await dbClient.close();
+
   }
 };
 
