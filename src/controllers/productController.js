@@ -1,18 +1,10 @@
-// controllers/productController.js
 import Product from '../models/product';
+import dbClient from '../config/db.js'; // Make sure to import dbClient if needed
 
 class ProductController {
   static async createProduct(req, res) {
-    const {
-      name,
-      description,
-      price,
-      quantity,
-      category,
-    } = req.body;
-    const product = new Product({
-      name, description, price, quantity, category,
-    });
+    const { name, description, price, quantity, category } = req.body;
+    const product = new Product({ name, description, price, quantity, category });
 
     try {
       const productId = await product.save();
