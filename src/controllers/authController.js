@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { generateToken, blacklistToken, extractToken } from '../config/jwt';
-import dbClient from '../config/db';
+import { generateToken, blacklistToken, extractToken } from '../config/jwt.js';
+import dbClient from '../config/db.js';
 
 /**
  * @class AuthController

@@ -1,10 +1,10 @@
 // index.js
 import express from 'express';
-import authenticate from '../middleware/authMiddleware';
-import createPaymentIntent from '../controllers/paymentController';
-import AuthController from '../controllers/authController';
-import UserController from '../controllers/userController';
-import ProductController from '../controllers/productController';
+import authenticate from '../middleware/authMiddleware.js';
+import createPaymentIntent from '../controllers/paymentController.js';
+import AuthController from '../controllers/authController.js';
+import UserController from '../controllers/userController.js';
+import ProductController from '../controllers/productController.js';
 
 const router = express.Router();
 
