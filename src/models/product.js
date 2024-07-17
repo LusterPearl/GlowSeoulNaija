@@ -4,24 +4,23 @@ import dbClient from '../config/db.js';
 const PRODUCTS_COLLECTION = 'products';
 
 class Product {
-  constructor({
-    name,
-    description,
-    price,
-    quantity,
-    category,
-  }) {
+  constructor({ name, description, price, quantity, category }) {
     this.name = name;
     this.description = description;
     this.price = price;
     this.quantity = quantity;
-    this.category = category; // Added category field
+    this.category = category;
   }
 
   async save() {
     const { db } = dbClient;
     const result = await db.collection(PRODUCTS_COLLECTION).insertOne(this);
     return result.insertedId;
+  }
+
+  static async create(productData) {
+    const product = new Product(productData);
+    return product.save();
   }
 
   static async findById(id) {
@@ -45,11 +44,8 @@ class Product {
 
   static async delete(id) {
     const { db } = dbClient;
-    const objectId = dbClient.ObjectId(id); // Define objectId first
-    const result = await db.collection(PRODUCTS_COLLECTION).deleteOne({
-      _id: objectId,
-    });
-
+    const objectId = dbClient.ObjectId(id);
+    const result = await db.collection(PRODUCTS_COLLECTION).deleteOne({ _id: objectId });
     return result.deletedCount > 0;
   }
 }
