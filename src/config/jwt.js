@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import redisClient from './redis.js';
+import redisClient from './redis';
 
 const SECRET_KEY = process.env.JWT_SECRET || 'SG/u1aEL0RXNvqXAGYAbZ6gO0WVZAIIzAVVeoqZQXy+tM8nmuzze+8lImI8CJO+V';
 

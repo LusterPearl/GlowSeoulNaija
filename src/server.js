@@ -2,9 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
-import routes from './routes/index.js';
-import dbClient from './config/db.js';
-import redisClient from './config/redis.js';
+import routes from './routes/index';
+import dbClient from './config/db';
+import redisClient from './config/redis';
 
 // Load environment variables from .env file
 dotenv.config();
