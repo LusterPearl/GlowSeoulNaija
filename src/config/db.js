@@ -1,3 +1,4 @@
+// Database
 import pkg from 'mongodb';
 const { MongoClient, ObjectId } = pkg;
 import EventEmitter from 'events';
@@ -23,13 +24,19 @@ class DBClient extends EventEmitter {
       });
   }
 
+  connect() {
+    return this.client.connect();
+  }
+
   isAlive() {
     return !!this.db;
   }
 
   async allUsers() {
     try {
-      const count = await this.client.db().collection('users').countDocuments();
+      const count = await this.client.db()
+        .collection('users')
+        .countDocuments();
       return count;
     } catch (error) {
       console.error('Error fetching user count:', error);
@@ -39,7 +46,10 @@ class DBClient extends EventEmitter {
 
   async allProducts() {
     try {
-      const products = await this.client.db().collection('products').find().toArray();
+      const products = await this.client.db()
+        .collection('products')
+        .find()
+        .toArray();
       return products;
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -49,7 +59,9 @@ class DBClient extends EventEmitter {
 
   async getProductById(productId) {
     try {
-      const product = await this.client.db().collection('products').findOne({ _id: ObjectId(productId) });
+      const product = await this.client.db()
+        .collection('products')
+        .findOne({ _id: ObjectId(productId) });
       return product;
     } catch (error) {
       console.error('Error fetching product by ID:', error);
@@ -59,7 +71,9 @@ class DBClient extends EventEmitter {
 
   async addProduct(productData) {
     try {
-      const result = await this.client.db().collection('products').insertOne(productData);
+      const result = await this.client.db()
+        .collection('products')
+        .insertOne(productData);
       return result.insertedId;
     } catch (error) {
       console.error('Error adding product:', error);
@@ -69,7 +83,9 @@ class DBClient extends EventEmitter {
 
   async updateProduct(productId, productData) {
     try {
-      const result = await this.client.db().collection('products').updateOne({ _id: ObjectId(productId) }, { $set: productData });
+      const result = await this.client.db()
+        .collection('products')
+        .updateOne({ _id: ObjectId(productId) }, { $set: productData });
       return result.modifiedCount;
     } catch (error) {
       console.error('Error updating product:', error);
@@ -79,7 +95,9 @@ class DBClient extends EventEmitter {
 
   async deleteProduct(productId) {
     try {
-      const result = await this.client.db().collection('products').deleteOne({ _id: ObjectId(productId) });
+      const result = await this.client.db()
+        .collection('products')
+        .deleteOne({ _id: ObjectId(productId) });
       return result.deletedCount;
     } catch (error) {
       console.error('Error deleting product:', error);
