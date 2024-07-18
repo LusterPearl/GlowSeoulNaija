@@ -1,6 +1,3 @@
-// sr
-import dbClient from './config/db.js';
-
 const products = [
     // Skincare
     { name: 'Gentle Foaming Cleanser', description: 'A soft foam cleanser.', price: 20000, quantity: 100, category: 'Skincare - Cleansers' },
@@ -60,19 +57,4 @@ const products = [
     { name: 'Sheet Mask Applicator', description: 'Applicator for sheet masks.', price: 100099, quantity: 200, category: 'Beauty Tools - Mask Applicators' },
     { name: 'Brush Set', description: 'Set of makeup brushes.', price: 2200000, quantity: 90, category: 'Beauty Tools - Brushes' }
   ];
-
-  async function seedDatabase() {
-    try {
-      const client = await dbClient.connect();
-      const db = client.db('GlowSeoulNaija');
-      const result = await db.collection('products').insertMany(products);
-      console.log(`${result.insertedCount} products inserted successfully.`);
-    } catch (error) {
-      console.error('Error seeding database:', error);
-    } finally {
-      await dbClient.close(); // Assuming you have a method to close the MongoDB connection in dbClient
-    }
-  }
-
-  seedDatabase();
   

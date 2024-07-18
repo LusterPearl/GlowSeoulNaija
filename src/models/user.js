@@ -1,5 +1,5 @@
 // user
-import dbClient from '../config/db.js';
+import dbClient from '../config/db';
 
 const USERS_COLLECTION = 'users';
 
@@ -33,13 +33,13 @@ class User {
 
   static async findById(id) {
     const { db } = dbClient;
-    return db.collection(USERS_COLLECTION).findOne({ _id: dbClient.ObjectID(id) });
+    return db.collection(USERS_COLLECTION).findOne({ _id: dbClient.ObjectId(id) });
   }
 
   static async update(id, newData) {
     const { db } = dbClient;
     const result = await db.collection(USERS_COLLECTION).updateOne(
-      { _id: dbClient.ObjectID(id) },
+      { _id: dbClient.ObjectId(id) },
       { $set: newData },
     );
     return result.modifiedCount > 0;
@@ -47,7 +47,7 @@ class User {
 
   static async delete(id) {
     const { db } = dbClient;
-    const result = await db.collection(USERS_COLLECTION).deleteOne({ _id: dbClient.ObjectID(id) });
+    const result = await db.collection(USERS_COLLECTION).deleteOne({ _id: dbClient.ObjectId(id) });
     return result.deletedCount > 0;
   }
 }
