@@ -1,9 +1,4 @@
-// src/seedProduct.js
-import dbClient from './config/db.js';
-import Product from './models/product';
-
-const seedProducts = async () => {
-  const products = [
+const products = [
     // Skincare
     { name: 'Gentle Foaming Cleanser', description: 'A soft foam cleanser.', price: 20000, quantity: 100, category: 'Skincare - Cleansers' },
     { name: 'Oil Cleanser', description: 'An oil-based cleanser for deep cleansing.', price: 250000, quantity: 80, category: 'Skincare - Cleansers' },
@@ -62,20 +57,4 @@ const seedProducts = async () => {
     { name: 'Sheet Mask Applicator', description: 'Applicator for sheet masks.', price: 100099, quantity: 200, category: 'Beauty Tools - Mask Applicators' },
     { name: 'Brush Set', description: 'Set of makeup brushes.', price: 2200000, quantity: 90, category: 'Beauty Tools - Brushes' }
   ];
-
-  try {
-    await dbClient.connect(); // Connect to the database
-
-    for (const product of products) {
-      await Product.create(product); // Create each product
-    }
-
-    console.log('Products seeded successfully.');
-  } catch (error) {
-    console.error('Error seeding products:', error);
-  } finally {
-    await dbClient.disconnect(); // Disconnect from the database
-  }
-};
-
-seedProducts();
+  

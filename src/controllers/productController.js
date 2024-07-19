@@ -1,4 +1,4 @@
-import Product from '../models/product';
+import Product from '../models/product.js';
 
 class ProductController {
   static async createProduct(req, res) {
