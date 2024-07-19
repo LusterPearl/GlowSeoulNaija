@@ -18,14 +18,9 @@ class Product {
     return result.insertedId;
   }
 
-  static async create(productData) {
-    const product = new Product(productData);
-    return product.save();
-  }
-
   static async findById(id) {
     const { db } = dbClient;
-    return db.collection(PRODUCTS_COLLECTION).findOne({ _id: dbClient.ObjectId(id) });
+    return db.collection(PRODUCTS_COLLECTION).findOne({ _id: dbClient.ObjectID(id) });
   }
 
   static async findAll() {
@@ -36,7 +31,7 @@ class Product {
   static async update(id, newData) {
     const { db } = dbClient;
     const result = await db.collection(PRODUCTS_COLLECTION).updateOne(
-      { _id: dbClient.ObjectId(id) },
+      { _id: dbClient.ObjectID(id) },
       { $set: newData },
     );
     return result.modifiedCount > 0;
@@ -44,8 +39,7 @@ class Product {
 
   static async delete(id) {
     const { db } = dbClient;
-    const objectId = dbClient.ObjectId(id);
-    const result = await db.collection(PRODUCTS_COLLECTION).deleteOne({ _id: objectId });
+    const result = await db.collection(PRODUCTS_COLLECTION).deleteOne({ _id: dbClient.ObjectID(id) });
     return result.deletedCount > 0;
   }
 }
