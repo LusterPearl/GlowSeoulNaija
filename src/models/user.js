@@ -1,41 +1,44 @@
-// models/product.js
+// user
 import dbClient from '../config/db.js';
 
-const PRODUCTS_COLLECTION = 'products';
+const USERS_COLLECTION = 'users';
 
-class Product {
-  constructor({ name, description, price, quantity, category }) {
-    this.name = name;
-    this.description = description;
-    this.price = price;
-    this.quantity = quantity;
-    this.category = category;
+class User {
+  constructor({
+    username,
+    email,
+    password,
+    firstName = '',
+    lastName = '',
+    address = '',
+  }) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.address = address;
   }
 
   async save() {
     const { db } = dbClient;
-    const result = await db.collection(PRODUCTS_COLLECTION).insertOne(this);
+    const result = await db.collection(USERS_COLLECTION).insertOne(this);
     return result.insertedId;
   }
 
-  static async create(productData) {
-    const product = new Product(productData);
-    return product.save();
+  static async findByEmail(email) {
+    const { db } = dbClient;
+    return db.collection(USERS_COLLECTION).findOne({ email });
   }
 
   static async findById(id) {
     const { db } = dbClient;
-    return db.collection(PRODUCTS_COLLECTION).findOne({ _id: dbClient.ObjectID(id) });
-  }
-
-  static async findAll() {
-    const { db } = dbClient;
-    return db.collection(PRODUCTS_COLLECTION).find().toArray();
+    return db.collection(USERS_COLLECTION).findOne({ _id: dbClient.ObjectID(id) });
   }
 
   static async update(id, newData) {
     const { db } = dbClient;
-    const result = await db.collection(PRODUCTS_COLLECTION).updateOne(
+    const result = await db.collection(USERS_COLLECTION).updateOne(
       { _id: dbClient.ObjectID(id) },
       { $set: newData },
     );
@@ -44,10 +47,9 @@ class Product {
 
   static async delete(id) {
     const { db } = dbClient;
-    const objectId = dbClient.ObjectID(id);
-    const result = await db.collection(PRODUCTS_COLLECTION).deleteOne({ _id: objectId });
+    const result = await db.collection(USERS_COLLECTION).deleteOne({ _id: dbClient.ObjectID(id) });
     return result.deletedCount > 0;
   }
 }
 
-export default Product;
+export default User;
