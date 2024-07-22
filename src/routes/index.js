@@ -35,9 +35,11 @@ router.put('/products/:id', authenticate, ProductController.updateProduct);
 router.delete('/products/:id', authenticate, ProductController.deleteProduct);
 router.get('/category/:category', authenticate, ProductController.getProductsByCategory);
 
-// Order Management Create a new order
-router.post('/orders', authenticate, OrderController.createOrder);
-// Track order by ID
-router.get('/orders/:id', authenticate, OrderController.getOrderById);
+// Order Management
+router.post('/orders', authenticate, OrderController.createOrder); // Create new order
+router.get('/orders/:id', authenticate, OrderController.getOrder); // Get order by ID
+router.get('/orders', authenticate, OrderController.getAllOrders); // Get all orders
+router.put('/orders/:id', authenticate, OrderController.updateOrder); // Update order by ID
+router.delete('/orders/:id', authenticate, OrderController.deleteOrder); // Delete order by ID
 
 export default router;
