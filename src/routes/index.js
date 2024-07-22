@@ -5,6 +5,7 @@ import createPaymentIntent from '../controllers/paymentController.js';
 import AuthController from '../controllers/authController.js';
 import UserController from '../controllers/userController.js';
 import ProductController from '../controllers/productController.js';
+import OrderController from '../controllers/orderController.js';
 
 const router = express.Router();
 
@@ -16,13 +17,9 @@ router.get('/test-auth', authenticate, (req, res) => {
 // Payment route
 router.post('/create-payment-intent', createPaymentIntent);
 
-// Registration route
+// Auth Management
 router.post('/register', AuthController.register);
-
-// Login route
 router.post('/login', AuthController.login);
-
-// Logout route
 router.post('/logout', authenticate, AuthController.logout);
 
 // User Profile Management
@@ -37,5 +34,12 @@ router.get('/products/:id', authenticate, ProductController.getProduct);
 router.put('/products/:id', authenticate, ProductController.updateProduct);
 router.delete('/products/:id', authenticate, ProductController.deleteProduct);
 router.get('/category/:category', authenticate, ProductController.getProductsByCategory);
+
+// Order Management
+router.post('/orders', authenticate, OrderController.createOrder); // Create new order
+router.get('/orders/:id', authenticate, OrderController.getOrder); // Get order by ID
+router.get('/orders', authenticate, OrderController.getAllOrders); // Get all orders
+router.put('/orders/:id', authenticate, OrderController.updateOrder); // Update order by ID
+router.delete('/orders/:id', authenticate, OrderController.deleteOrder); // Delete order by ID
 
 export default router;

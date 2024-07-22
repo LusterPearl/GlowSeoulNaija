@@ -34,7 +34,7 @@ class DBClient extends EventEmitter {
 
   async allUsers() {
     try {
-      const count = await this.client.db()
+      const count = await this.db // Updated to use this.db
         .collection('users')
         .countDocuments();
       return count;
@@ -46,7 +46,7 @@ class DBClient extends EventEmitter {
 
   async allProducts() {
     try {
-      const products = await this.client.db()
+      const products = await this.db // Updated to use this.db
         .collection('products')
         .find()
         .toArray();
@@ -59,7 +59,7 @@ class DBClient extends EventEmitter {
 
   async getProductById(productId) {
     try {
-      const product = await this.client.db()
+      const product = await this.db // Updated to use this.db
         .collection('products')
         .findOne({ _id: ObjectId(productId) });
       return product;
@@ -71,7 +71,7 @@ class DBClient extends EventEmitter {
 
   async addProduct(productData) {
     try {
-      const result = await this.client.db()
+      const result = await this.db // Updated to use this.db
         .collection('products')
         .insertOne(productData);
       return result.insertedId;
@@ -83,7 +83,7 @@ class DBClient extends EventEmitter {
 
   async updateProduct(productId, productData) {
     try {
-      const result = await this.client.db()
+      const result = await this.db // Updated to use this.db
         .collection('products')
         .updateOne({ _id: ObjectId(productId) }, { $set: productData });
       return result.modifiedCount;
@@ -95,12 +95,48 @@ class DBClient extends EventEmitter {
 
   async deleteProduct(productId) {
     try {
-      const result = await this.client.db()
+      const result = await this.db // Updated to use this.db
         .collection('products')
         .deleteOne({ _id: ObjectId(productId) });
       return result.deletedCount;
     } catch (error) {
       console.error('Error deleting product:', error);
+      throw error;
+    }
+  }
+
+  async addOrder(orderData) {
+    try {
+      const result = await this.db // Updated to use this.db
+        .collection('orders')
+        .insertOne(orderData);
+      return result.insertedId;
+    } catch (error) {
+      console.error('Error adding order:', error);
+      throw error;
+    }
+  }
+
+  async getOrderById(orderId) {
+    try {
+      const order = await this.db // Updated to use this.db
+        .collection('orders')
+        .findOne({ _id: ObjectId(orderId) });
+      return order;
+    } catch (error) {
+      console.error('Error fetching order by ID:', error);
+      throw error;
+    }
+  }
+
+  async updateOrder(orderId, orderData) {
+    try {
+      const result = await this.db // Updated to use this.db
+        .collection('orders')
+        .updateOne({ _id: ObjectId(orderId) }, { $set: orderData });
+      return result.modifiedCount;
+    } catch (error) {
+      console.error('Error updating order:', error);
       throw error;
     }
   }
