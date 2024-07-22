@@ -6,6 +6,7 @@ import AuthController from '../controllers/authController.js';
 import UserController from '../controllers/userController.js';
 import ProductController from '../controllers/productController.js';
 import OrderController from '../controllers/orderController.js';
+import handleWebhook from '../controllers/webhookController.js';
 
 const router = express.Router();
 
@@ -41,5 +42,10 @@ router.get('/orders/:id', authenticate, OrderController.getOrder); // Get order 
 router.get('/orders', authenticate, OrderController.getAllOrders); // Get all orders
 router.put('/orders/:id', authenticate, OrderController.updateOrder); // Update order by ID
 router.delete('/orders/:id', authenticate, OrderController.deleteOrder); // Delete order by ID
+
+// Webhook route
+router.post('/webhook', express.raw({ type: 'application/json' }), handleWebhook);
+//  Webhook route
+// router.post('/webhook', handleWebhook);
 
 export default router;

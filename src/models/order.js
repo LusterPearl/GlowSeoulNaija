@@ -1,13 +1,13 @@
-// models/order.js
 import dbClient from '../config/db.js';
 
 const ORDERS_COLLECTION = 'orders';
 
 class Order {
-  constructor({ userId, products, status }) {
+  constructor({ userId, products, status, paymentIntentId }) {
     this.userId = userId;
     this.products = products;
     this.status = status;
+    this.paymentIntentId = paymentIntentId; // Add paymentIntentId
   }
 
   async save() {

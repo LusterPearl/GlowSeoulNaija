@@ -1,17 +1,33 @@
-// controllers/orderController.js
 import Order from '../models/order.js';
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2020-08-27',
+});
 
 class OrderController {
   static async createOrder(req, res) {
-    const { userId, products, status } = req.body;
-    console.log('Creating order with:', { userId, products, status });
-    const order = new Order({ userId, products, status });
+    const { userId, products, status, paymentMethodId } = req.body;
 
     try {
+      // Calculate total amount
+      const amount = OrderController.calculateTotalAmount(products);
+
+      // Create a payment intent
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount * 100, // Convert to smallest currency unit (kobo for NGN)
+        currency: 'ngn',
+        payment_method: paymentMethodId,
+        confirm: true, // Automatically confirm the payment
+      });
+
+      // Create an order
+      const order = new Order({ userId, products, status, paymentIntentId: paymentIntent.id });
       const orderId = await order.save();
-      console.log('Order created with ID:', orderId);
+
       return res.status(201).json({ message: 'Order created successfully', orderId });
     } catch (error) {
+      console.error('Error creating order:', error);
       return res.status(500).json({ message: 'Error creating order', error });
     }
   }
@@ -66,6 +82,10 @@ class OrderController {
     } catch (error) {
       return res.status(500).json({ message: 'Error deleting order', error });
     }
+  }
+
+  static calculateTotalAmount(products) {
+    return products.reduce((total, product) => total + product.price * product.quantity, 0);
   }
 }
 
