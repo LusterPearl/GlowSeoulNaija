@@ -45,7 +45,5 @@ router.delete('/orders/:id', authenticate, OrderController.deleteOrder); // Dele
 
 // Webhook route
 router.post('/webhook', express.raw({ type: 'application/json' }), handleWebhook);
-//  Webhook route
-// router.post('/webhook', handleWebhook);
 
 export default router;
