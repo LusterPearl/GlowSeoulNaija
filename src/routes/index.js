@@ -17,13 +17,9 @@ router.get('/test-auth', authenticate, (req, res) => {
 // Payment route
 router.post('/create-payment-intent', createPaymentIntent);
 
-// Registration route
+// Auth Management
 router.post('/register', AuthController.register);
-
-// Login route
 router.post('/login', AuthController.login);
-
-// Logout route
 router.post('/logout', authenticate, AuthController.logout);
 
 // User Profile Management
@@ -39,7 +35,7 @@ router.put('/products/:id', authenticate, ProductController.updateProduct);
 router.delete('/products/:id', authenticate, ProductController.deleteProduct);
 router.get('/category/:category', authenticate, ProductController.getProductsByCategory);
 
-// Create a new order
+// Order Management Create a new order
 router.post('/orders', authenticate, OrderController.createOrder);
 // Track order by ID
 router.get('/orders/:id', authenticate, OrderController.getOrderById);
