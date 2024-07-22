@@ -105,6 +105,42 @@ class DBClient extends EventEmitter {
     }
   }
 
+  async addOrder(orderData) {
+    try {
+      const result = await this.client.db()
+        .collection('orders')
+        .insertOne(orderData);
+      return result.insertedId;
+    } catch (error) {
+      console.error('Error adding order:', error);
+      throw error;
+    }
+  }
+
+  async getOrderById(orderId) {
+    try {
+      const order = await this.client.db()
+        .collection('orders')
+        .findOne({ _id: ObjectId(orderId) });
+      return order;
+    } catch (error) {
+      console.error('Error fetching order by ID:', error);
+      throw error;
+    }
+  }
+
+  async updateOrder(orderId, orderData) {
+    try {
+      const result = await this.client.db()
+        .collection('orders')
+        .updateOne({ _id: ObjectId(orderId) }, { $set: orderData });
+      return result.modifiedCount;
+    } catch (error) {
+      console.error('Error updating order:', error);
+      throw error;
+    }
+  }
+
   ObjectID(id) {
     return new ObjectId(id);
   }
