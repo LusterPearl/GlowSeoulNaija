@@ -42,6 +42,7 @@ router.get('/orders/:id', authenticate, OrderController.getOrder); // Get order 
 router.get('/orders', authenticate, OrderController.getAllOrders); // Get all orders
 router.put('/orders/:id', authenticate, OrderController.updateOrder); // Update order by ID
 router.delete('/orders/:id', authenticate, OrderController.deleteOrder); // Delete order by ID
+router.post('/confirm-payment', authenticate, OrderController.confirmPayment); // Payment Confirmation 
 
 // Webhook route
 router.post('/webhook', express.raw({ type: 'application/json' }), handleWebhook);

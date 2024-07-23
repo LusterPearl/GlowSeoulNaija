@@ -32,6 +32,37 @@ class OrderController {
     }
   }
 
+  // New method to confirm payment
+  static async confirmPayment(req, res) {
+    const { orderId, paymentIntentId } = req.body;
+
+    try {
+      // Find the order by ID
+      const order = await Order.findById(orderId);
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
+
+      // Retrieve the payment intent
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      if (!paymentIntent) {
+        return res.status(404).json({ message: 'Payment intent not found' });
+      }
+
+      // Check if the payment intent status is succeeded
+      if (paymentIntent.status === 'succeeded') {
+        // Update the order status
+        await Order.update(orderId, { status: 'completed' });
+        return res.json({ message: 'Payment confirmed and order status updated' });
+      }
+
+      return res.status(400).json({ message: 'Payment not successful' });
+    } catch (error) {
+      console.error('Error confirming payment:', error);
+      return res.status(500).json({ message: 'Error confirming payment', error });
+    }
+  }
+
   static async getOrder(req, res) {
     const { id } = req.params;
 
