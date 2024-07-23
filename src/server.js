@@ -11,6 +11,7 @@ dotenv.config();
 
 // Initialize the Express app
 const app = express();
+const endpointSecret = 'whsec_pI7OGiJQ2Mjb9Hl6OsvSxXWKW9pmP13o'; 
 const port = process.env.PORT || 5001;
 
 // Configure CORS
