@@ -1,6 +1,9 @@
 import Order from '../models/order.js';
 import Stripe from 'stripe';
 
+// Confirm if the environment variable is being read correctly
+console.log('Stripe Secret Key:', process.env.STRIPE_SECRET_KEY);
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
 });
