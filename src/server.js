@@ -9,6 +9,8 @@ import redisClient from './config/redis.js';
 // Load environment variables from .env file
 dotenv.config();
 
+console.log('Loaded Stripe Secret Key in server.js:', process.env.STRIPE_SECRET_KEY);
+
 // Initialize the Express app
 const app = express();
 const port = process.env.PORT || 5001;
