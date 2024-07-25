@@ -110,6 +110,7 @@ class DBClient extends EventEmitter {
   // Handles Order
   async addOrder(orderData) {
     try {
+      console.log('Adding Order:', orderData);
       const result = await this.db
         .collection('orders')
         .insertOne(orderData);
@@ -134,12 +135,25 @@ class DBClient extends EventEmitter {
 
   async updateOrder(orderId, orderData) {
     try {
+      console.log('Updating Order ID:', orderId, 'with data:', orderData);
       const result = await this.db
         .collection('orders')
         .updateOne({ _id: ObjectId(orderId) }, { $set: orderData });
       return result.modifiedCount;
     } catch (error) {
       console.error('Error updating order:', error);
+      throw error;
+    }
+  }
+
+  async deleteOrder(orderId) {
+    try {
+      const result = await this.db
+        .collection('orders')
+        .deleteOne({ _id: ObjectId(orderId) });
+      return result.deletedCount;
+    } catch (error) {
+      console.error('Error deleting order:', error);
       throw error;
     }
   }

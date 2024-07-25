@@ -7,7 +7,7 @@ console.log('Stripe Secret Key:', process.env.STRIPE_SECRET_KEY);
 const stripe = new Stripe('sk_test_51Pb04SRqiqspksZPLGJjsw6tA0HuWfUj5UL5jvK1dfE3du6xhstk2qbmAtkGXyTJd9VMSxmAiWLNCOaRidG67NDH00PDmFM9KV', {
   apiVersion: '2020-08-27',
 });
-
+  ``
 class OrderController {
   static async createOrder(req, res) {
     const { userId, products, status, paymentMethodId } = req.body;
@@ -15,9 +15,23 @@ class OrderController {
     try {
       // Calculate total amount
       const amount = OrderController.calculateTotalAmount(products);
-      
-      console.log('Payment Method ID:', paymentMethodId); // Add logging
 
+      // Add logging for the amount calculation
+      console.log('Calculated Amount:', amount);
+      
+      // Check if amount is a valid number
+      if (isNaN(amount) || amount <= 0) {
+        return res.status(400).json({ message: 'Invalid amount calculated' });
+      }
+
+      // Log the payment method ID
+      console.log('Payment Method ID:', paymentMethodId);
+
+      // Validate the paymentMethodId
+      if (!paymentMethodId) {
+        return res.status(400).json({ message: 'Payment Method ID is required' });
+      }
+      
       // Create a payment intent
       const paymentIntent = await stripe.paymentIntents.create({
         amount: amount * 100, // Convert to smallest currency unit (kobo for NGN)
