@@ -7,28 +7,24 @@ class Order {
     this.userId = userId;
     this.products = products;
     this.status = status;
-    this.paymentIntentId = paymentIntentId;
+    this.paymentIntentId = paymentIntentId; // Add paymentIntentId
   }
 
   async save() {
     const { db } = dbClient;
     const result = await db.collection(ORDERS_COLLECTION).insertOne(this);
-    console.log('Order saved with ID:', result.insertedId); // Add logging
+    console.log('Order saved with ID:', result.insertedId);
     return result.insertedId;
   }
 
   static async findById(id) {
     const { db } = dbClient;
-    const order = await db.collection(ORDERS_COLLECTION).findOne({ _id: dbClient.ObjectID(id) });
-    console.log('Order found:', order); // Add logging
-    return order;
+    return db.collection(ORDERS_COLLECTION).findOne({ _id: dbClient.ObjectID(id) });
   }
 
   static async findAll() {
     const { db } = dbClient;
-    const orders = await db.collection(ORDERS_COLLECTION).find().toArray();
-    console.log('All orders:', orders); // Add logging
-    return orders;
+    return db.collection(ORDERS_COLLECTION).find().toArray();
   }
 
   static async update(id, newData) {
@@ -37,14 +33,12 @@ class Order {
       { _id: dbClient.ObjectID(id) },
       { $set: newData },
     );
-    console.log('Order update result:', result); // Add logging
     return result.modifiedCount > 0;
   }
 
   static async delete(id) {
     const { db } = dbClient;
     const result = await db.collection(ORDERS_COLLECTION).deleteOne({ _id: dbClient.ObjectID(id) });
-    console.log('Order delete result:', result); // Add logging
     return result.deletedCount > 0;
   }
 }
