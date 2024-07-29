@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
+import rateLimit from 'express-rate-limit';
+import logger from './config/logger.js';
 import routes from './routes/index.js';
 import dbClient from './config/db.js';
 import redisClient from './config/redis.js';
@@ -10,7 +12,10 @@ import errorHandler from './middleware/errorHandler.js';
 // Load environment variables from .env file
 dotenv.config();
 
-console.log('Loaded Stripe Secret Key in server.js:', process.env.STRIPE_SECRET_KEY);
+// Use logger for critical info
+logger.info('Loaded Stripe Secret Key in server.js: ' + process.env.STRIPE_SECRET_KEY); // Log the Stripe secret key
+
+//console.log('Loaded Stripe Secret Key in server.js:', process.env.STRIPE_SECRET_KEY);
 
 // Initialize the Express app
 const app = express();

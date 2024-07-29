@@ -1,3 +1,6 @@
+// middleware/errorHandler.js
+import logger from '../config/logger.js'; // Import the logger
+
 /**
  * Middleware to handle errors centrally across the application.
  * @param {Object} err - The error object.
@@ -6,20 +9,16 @@
  * @param {Function} next - The next function to call in the middleware chain.
  */
 const errorHandler = (err, req, res, next) => {
-    console.error(err.stack); // Log the error stack for debugging
-  
+    logger.error(err.stack); // Log the error stack for debugging
+
     // Define error response structure
     const errorResponse = {
       status: 'error',
-      message: err.message || 'Internal Server Error',
-      code: err.statusCode || 500,
-      // Optionally include additional info like error details
-      details: err.details || null,
+      message: err.message,
+      ...(process.env.NODE_ENV === 'development' && { stack: err.stack }), // Show stack trace in development
     };
-  
-    // Set the appropriate HTTP status code
-    res.status(err.statusCode || 500).json(errorResponse);
-  };
-  
-  export default errorHandler;
-  
+
+    res.status(err.status || 500).json(errorResponse); // Send error response to client
+};
+
+export default errorHandler;
