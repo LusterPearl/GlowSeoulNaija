@@ -15,6 +15,14 @@ router.get('/test-auth', authenticate, (req, res) => {
   res.json({ message: 'Middleware is working!', user: req.user });
 });
 
+// Test route to simulate an error
+router.get('/test-error', (req, res) => {
+  // Simulate an error
+  const err = new Error('This is a test error');
+  err.statusCode = 400;
+  throw err;
+});
+
 // Payment route
 router.post('/create-payment-intent', createPaymentIntent);
 

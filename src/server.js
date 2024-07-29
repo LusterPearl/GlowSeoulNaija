@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import routes from './routes/index.js';
 import dbClient from './config/db.js';
 import redisClient from './config/redis.js';
+import errorHandler from './middleware/errorHandler.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -29,6 +30,9 @@ app.use(bodyParser.json()); // Use body-parser's JSON parser if needed for other
 
 // Route handling
 app.use('/', routes);
+
+// Error handling middleware after all routes
+app.use(errorHandler);
 
 // Start the server once the database is connected
 dbClient.connect()
