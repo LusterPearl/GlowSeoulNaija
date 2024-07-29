@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { validationResult } from 'express-validator';
 import { generateToken, blacklistToken, extractToken } from '../config/jwt.js';
 import dbClient from '../config/db.js';
 
@@ -17,6 +18,12 @@ class AuthController {
    * @returns {Promise<void>}
    */
   async register(req, res) {
+    // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
     const { email, password, username } = req.body;
 
     try {
@@ -47,6 +54,12 @@ class AuthController {
    * @returns {Promise<void>}
    */
   async login(req, res) {
+    // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
     const { email, password } = req.body;
 
     try {

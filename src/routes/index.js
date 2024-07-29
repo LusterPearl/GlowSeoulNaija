@@ -1,5 +1,6 @@
 // index.js
 import express from 'express';
+import { body, validationResult } from 'express-validator';
 import authenticate from '../middleware/authMiddleware.js';
 import createPaymentIntent from '../controllers/paymentController.js';
 import AuthController from '../controllers/authController.js';
@@ -26,9 +27,22 @@ router.get('/test-error', (req, res) => {
 // Payment route
 router.post('/create-payment-intent', createPaymentIntent);
 
+// Registration route with validation
+router.post('/register', [
+  body('email').isEmail().withMessage('Must be a valid email'),
+  body('password').isLength({ min: 6 }).withMessage('Must be at least 6 characters long'),
+  body('username').notEmpty().withMessage('Username is required'),
+], AuthController.register);
+
+// Login route with validation
+router.post('/login', [
+  body('email').isEmail().withMessage('Must be a valid email'),
+  body('password').notEmpty().withMessage('Password is required'),
+], AuthController.login);
+
 // Auth Management
-router.post('/register', AuthController.register);
-router.post('/login', AuthController.login);
+//router.post('/register', AuthController.register);
+//router.post('/login', AuthController.login);
 router.post('/logout', authenticate, AuthController.logout);
 
 // User Profile Management
