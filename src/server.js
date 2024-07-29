@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import routes from './routes/index.js';
 import dbClient from './config/db.js';
 import redisClient from './config/redis.js';
-import errorHandler from './middlewares/errorHandler.js';
+import errorHandler from './middleware/errorHandler.js';
 
 // Load environment variables from .env file
 dotenv.config();
