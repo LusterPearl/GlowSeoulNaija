@@ -1,4 +1,3 @@
-// index.js
 import express from 'express';
 import { body, validationResult } from 'express-validator';
 import authenticate from '../middleware/authMiddleware.js';
@@ -10,6 +9,12 @@ import OrderController from '../controllers/orderController.js';
 import handleWebhook from '../controllers/webhookController.js';
 
 const router = express.Router();
+
+// Middleware to log when the register endpoint is hit
+const logRegisterHit = (req, res, next) => {
+  console.log('Register endpoint hit');
+  next(); // Proceed to the next middleware/controller
+};
 
 // Protected route
 router.get('/test-auth', authenticate, (req, res) => {
@@ -30,10 +35,12 @@ router.post('/create-payment-intent', createPaymentIntent);
 // Auth Management
 // Registration route with validation
 router.post('/register', [
+  logRegisterHit, // Add the logging middleware
   body('email').isEmail().withMessage('Must be a valid email'),
   body('password').isLength({ min: 6 }).withMessage('Must be at least 6 characters long'),
   body('username').notEmpty().withMessage('Username is required'),
 ], AuthController.register);
+
 router.post('/login', [
   body('email').isEmail().withMessage('Must be a valid email'),
   body('password').notEmpty().withMessage('Password is required'),
