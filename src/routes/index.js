@@ -35,7 +35,6 @@ router.post('/create-payment-intent', createPaymentIntent);
 // Auth Management
 // Registration route with validation
 router.post('/register', [
-  logRegisterHit, // Add the logging middleware
   body('email').isEmail().withMessage('Must be a valid email'),
   body('password').isLength({ min: 6 }).withMessage('Must be at least 6 characters long'),
   body('username').notEmpty().withMessage('Username is required'),
@@ -45,6 +44,7 @@ router.post('/login', [
   body('email').isEmail().withMessage('Must be a valid email'),
   body('password').notEmpty().withMessage('Password is required'),
 ], AuthController.login);
+
 router.post('/logout', authenticate, AuthController.logout);
 
 // User Profile Management

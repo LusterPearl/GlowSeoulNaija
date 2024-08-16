@@ -1,3 +1,4 @@
+// server.js 
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -25,7 +26,6 @@ const corsOptions = {
   origin: 'http://localhost:3000', // Allow requests from this origin
   optionsSuccessStatus: 200,
 };
-
 app.use(cors(corsOptions)); // Use CORS middleware
 
 // Middleware to parse JSON
