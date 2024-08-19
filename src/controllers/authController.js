@@ -19,6 +19,7 @@ class AuthController {
    */
   async register(req, res) {
     // Check for validation errors
+    console.log('Register endpoint hit');
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
