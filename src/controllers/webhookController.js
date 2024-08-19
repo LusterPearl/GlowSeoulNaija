@@ -4,7 +4,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
 });
 
-const endpointSecret = 'whsec_pI7OGiJQ2Mjb9Hl6OsvSxXWKW9pmP13o'; // Ensure this matches your Stripe webhook secret
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 // webhookController.js
 const handleWebhook = async (req, res) => {
