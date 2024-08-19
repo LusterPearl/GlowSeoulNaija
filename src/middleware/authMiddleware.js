@@ -1,4 +1,4 @@
-import { verifyToken, isTokenBlacklisted } from '../config/jwt';
+import { verifyToken, isTokenBlacklisted } from '../config/jwt.js';
 
 /**
  * Middleware to authenticate incoming requests using JWT.
@@ -41,7 +41,7 @@ const authenticate = async (req, res, next) => {
     }
 
     // Set the decoded user information on the request object for further middleware or routes
-    req.user = decoded;
+    req.user = { id: decoded.userId }; // Set userId to req.user
     next(); // Proceed to the next middleware or route handler
   } catch (error) {
     console.error('Error authenticating user:', error);
