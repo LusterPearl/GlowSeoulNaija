@@ -3,7 +3,6 @@
     "version": "1.0.0",
     "description": "Backend server for GlowSeoulNaija, an e-commerce platform specializing in Korean beauty products for the Nigerian market. Built with Node.js, Express, MongoDB for data storage, Redis for caching, and integrated with ESLint for code quality assurance.",
     "main": "server.js",
-    "start": "node src/server.js",
     "type": "module",
     "scripts": {
         "lint": "./node_modules/.bin/eslint",
