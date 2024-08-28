@@ -13,7 +13,7 @@ import errorHandler from './middleware/errorHandler.js';
 dotenv.config();
 
 // Use logger for critical info
-logger.info('Loaded Stripe Secret Key in server.js: ' + process.env.STRIPE_SECRET_KEY); // Log the Stripe secret key
+// logger.info('Loaded Stripe Secret Key in server.js: ' + process.env.STRIPE_SECRET_KEY); // Log the Stripe secret key
 
 //console.log('Loaded Stripe Secret Key in server.js:', process.env.STRIPE_SECRET_KEY);
 
