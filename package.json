@@ -3,15 +3,14 @@
     "version": "1.0.0",
     "description": "Backend server for GlowSeoulNaija, an e-commerce platform specializing in Korean beauty products for the Nigerian market. Built with Node.js, Express, MongoDB for data storage, Redis for caching, and integrated with ESLint for code quality assurance.",
     "main": "server.js",
-    "start": "node src/server.js",
     "type": "module",
     "scripts": {
         "lint": "./node_modules/.bin/eslint",
         "check-lint": "lint ./*.js",
-        "start-server": "MONGO_URI=mongodb://Oluwatosin:lusterpearl145671@localhost:27017/GlowSeoulNaija nodemon --exec babel-node --presets @babel/preset-env ./src/server.js",
-        "start-worker": "MONGO_URI=mongodb://Oluwatosin:lusterpearl145671@localhost:27017/GlowSeoulNaija nodemon --exec babel-node --presets @babel/preset-env ./src/worker.js",
-        "dev-unix": "MONGO_URI=mongodb://Oluwatosin:lusterpearl145671@localhost:27017/GlowSeoulNaija nodemon --exec babel-node --presets @babel/preset-env",
-        "dev-win": "cross-env MONGO_URI=mongodb://Oluwatosin:lusterpearl145671@localhost:27017/GlowSeoulNaija nodemon --exec babel-node --presets @babel/preset-env",
+        "start-server": "MONGO_URI=mongodb://Oluwatosin:Oluwatosin@localhost:27017/GlowSeoulNaija?authSource=admin nodemon --exec babel-node --presets @babel/preset-env ./src/server.js",
+        "start-worker": "MONGO_URI=mongodb://Oluwatosin:Oluwatosin@localhost:27017/GlowSeoulNaija?authSource=admin nodemon --exec babel-node --presets @babel/preset-env ./src/worker.js",
+        "dev-unix": "MONGO_URI=mongodb://Oluwatosin:Oluwatosin@localhost:27017/GlowSeoulNaija?authSource=admin nodemon --exec babel-node --presets @babel/preset-env",
+        "dev-win": "cross-env MONGO_URI=mongodb://Oluwatosin:Oluwatosin@localhost:27017/GlowSeoulNaija?authSource=admin nodemon --exec babel-node --presets @babel/preset-env",
         "test": "./node_modules/.bin/mocha --require @babel/register --exit",
         "seed": "babel-node src/seedData.js"
     },
@@ -23,6 +22,7 @@
     "dependencies": {
         "@stripe/react-stripe-js": "^2.7.3",
         "@stripe/stripe-js": "^4.1.0",
+        "axios": "^1.7.5",
         "bcrypt": "^5.1.1",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.20.2",

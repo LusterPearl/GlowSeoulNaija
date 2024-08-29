@@ -2,7 +2,7 @@
 import pkg from 'mongodb';
 const { MongoClient, ObjectId } = pkg;
 import EventEmitter from 'events';
-import logger from './logger.js'; // Import the logger
+import logger from './logger.js';
 
 const { MONGO_URI } = process.env;
 
