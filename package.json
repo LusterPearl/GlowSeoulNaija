@@ -41,11 +41,13 @@
         "mongodb": "^3.7.4",
         "mongoose": "^8.4.3",
         "morgan": "^1.10.0",
+        "node-fetch": "^3.3.2",
         "redis": "^2.8.0",
         "sha1": "^1.1.1",
         "stripe": "^16.2.0",
         "swagger-jsdoc": "^6.2.8",
         "swagger-ui-express": "^5.0.1",
+        "undici": "^6.19.8",
         "uuid": "^8.3.2",
         "winston": "^3.13.1"
     },
