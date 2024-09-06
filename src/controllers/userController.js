@@ -18,23 +18,25 @@ class UserController {
   static async uploadProfilePicture(req, res) {
     const userId = req.user.id;
     const avatar = req.file ? req.file.path : null;
-  
+
     if (!avatar) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
-  
+
     try {
-      const user = await User.findById(userId);
+      // Find user and ensure it is an instance of the User model
+      const user = await User.findById(userId).exec(); // Ensure you use .exec() to return a promise
+
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
-  
+
       user.avatar = avatar; // Set the avatar path
-      await user.save();
-  
+      await user.save(); // Save the updated user document
+
       return res.json({ message: 'Profile picture uploaded successfully', user });
     } catch (error) {
-      console.error('Error uploading profile picture:', error);
+      console.error('Error uploading profile picture:', error); // Log the error
       return res.status(500).json({ message: 'Error uploading profile picture', error });
     }
   }  

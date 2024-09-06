@@ -1,0 +1,54 @@
+// user.js
+import dbClient from '../config/db.js';
+
+const USERS_COLLECTION = 'users';
+
+class User {
+  constructor({
+    username,
+    email,
+    password,
+    firstName = '',
+    lastName = '',
+    address = '',
+    avatar = '', // Add avatar field
+  }) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.address = address;
+    this.avatar = avatar; // Add avatar field
+  }
+
+  // Rename save to create
+  static async create(userData) {
+    const { db } = dbClient;
+    const result = await db.collection(USERS_COLLECTION).insertOne(userData);
+    return result.insertedId;
+  }
+
+  // Use this method to update user
+  static async findById(id) {
+    const { db } = dbClient;
+    return db.collection(USERS_COLLECTION).findOne({ _id: dbClient.ObjectID(id) });
+  }
+
+  static async update(id, newData) {
+    const { db } = dbClient;
+    const result = await db.collection(USERS_COLLECTION).updateOne(
+      { _id: dbClient.ObjectID(id) },
+      { $set: newData },
+    );
+    return result.modifiedCount > 0;
+  }
+
+  static async delete(id) {
+    const { db } = dbClient;
+    const result = await db.collection(USERS_COLLECTION).deleteOne({ _id: dbClient.ObjectID(id) });
+    return result.deletedCount > 0;
+  }
+}
+
+export default User;
