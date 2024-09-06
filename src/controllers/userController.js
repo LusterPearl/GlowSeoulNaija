@@ -18,8 +18,14 @@ class UserController {
   static async updateProfile(req, res) {
     const userId = req.user.id;
     const { firstName, lastName, address } = req.body;
+    const avatar = req.file ? req.file.path : null;
 
     try {
+      const updatedData = { firstName, lastName, address };
+      if (avatar) {
+        updatedData.avatar = avatar;  // Save avatar path if a file was uploaded
+      }
+      
       const updated = await User.update(userId, { firstName, lastName, address });
       if (updated) {
         return res.json({ message: 'Profile updated successfully' });

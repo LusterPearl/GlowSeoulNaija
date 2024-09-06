@@ -7,6 +7,7 @@ import UserController from '../controllers/userController.js';
 import ProductController from '../controllers/productController.js';
 import OrderController from '../controllers/orderController.js';
 import handleWebhook from '../controllers/webhookController.js';
+import upload from '../middleware/uploadMiddleware.js';
 
 const router = express.Router();
 
@@ -51,6 +52,7 @@ router.post('/logout', authenticate, AuthController.logout);
 router.get('/profile', authenticate, UserController.getProfile);
 router.put('/profile', authenticate, UserController.updateProfile);
 router.delete('/profile', authenticate, UserController.deleteProfile);
+router.put('/profile', authenticate, upload.single('avatar'), UserController.updateProfile);
 
 // Product Management
 router.post('/products', authenticate, ProductController.createProduct);
