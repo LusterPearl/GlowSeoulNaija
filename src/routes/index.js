@@ -53,6 +53,7 @@ router.get('/profile', authenticate, UserController.getProfile);
 router.put('/profile', authenticate, UserController.updateProfile);
 router.delete('/profile', authenticate, UserController.deleteProfile);
 router.put('/profile', authenticate, upload.single('avatar'), UserController.updateProfile);
+router.put('/profile/picture', authenticate, upload.single('avatar'), UserController.uploadProfilePicture);
 
 // Product Management
 router.post('/products', authenticate, ProductController.createProduct);

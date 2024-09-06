@@ -11,6 +11,7 @@ class User {
     firstName = '',
     lastName = '',
     address = '',
+    avatar = '', // Add avatar field
   }) {
     this.username = username;
     this.email = email;
@@ -18,6 +19,7 @@ class User {
     this.firstName = firstName;
     this.lastName = lastName;
     this.address = address;
+    this.avatar = avatar; // Add avatar field
   }
 
   async save() {
