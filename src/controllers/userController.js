@@ -18,25 +18,26 @@ class UserController {
   static async uploadProfilePicture(req, res) {
     const userId = req.user.id;
     const avatar = req.file ? req.file.path : null;
-
+  
     if (!avatar) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
-
+  
     try {
       const user = await User.findById(userId);
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
-
+  
       user.avatar = avatar; // Set the avatar path
       await user.save();
-
+  
       return res.json({ message: 'Profile picture uploaded successfully', user });
     } catch (error) {
+      console.error('Error uploading profile picture:', error);
       return res.status(500).json({ message: 'Error uploading profile picture', error });
     }
-  }
+  }  
 
   static async updateProfile(req, res) {
     const userId = req.user.id;
