@@ -8,6 +8,7 @@ import ProductController from '../controllers/productController.js';
 import OrderController from '../controllers/orderController.js';
 import handleWebhook from '../controllers/webhookController.js';
 import upload from '../middleware/uploadMiddleware.js';
+import authorizeAdmin from '../middleware/authorizeAdmin.js';
 
 const router = express.Router();
 
@@ -50,10 +51,14 @@ router.post('/logout', authenticate, AuthController.logout);
 
 // User Profile Management
 router.get('/profile', authenticate, UserController.getProfile);
-router.put('/profile', authenticate, UserController.updateProfile);
+router.put('/profile', authenticate, upload.single('profilePicture'), UserController.updateProfile);
+router.post('/profile/picture', authenticate, upload.single('profilePicture'), UserController.uploadProfilePicture);
 router.delete('/profile', authenticate, UserController.deleteProfile);
-router.put('/profile', authenticate, upload.single('avatar'), UserController.updateProfile);
-router.put('/profile/picture', authenticate, upload.single('avatar'), UserController.uploadProfilePicture);
+
+// Admin Routes
+router.get('/profiles', authenticate, authorizeAdmin, UserController.getAllProfiles);
+router.delete('/profiles/:id', authenticate, authorizeAdmin, UserController.deleteProfileById);
+
 
 // Product Management
 router.post('/products', authenticate, ProductController.createProduct);

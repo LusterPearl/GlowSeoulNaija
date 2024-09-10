@@ -1,4 +1,3 @@
-// user
 import dbClient from '../config/db.js';
 
 const USERS_COLLECTION = 'users';
@@ -11,7 +10,7 @@ class User {
     firstName = '',
     lastName = '',
     address = '',
-    avatar = '', // Add avatar field
+    avatar = '',
   }) {
     this.username = username;
     this.email = email;
@@ -19,18 +18,18 @@ class User {
     this.firstName = firstName;
     this.lastName = lastName;
     this.address = address;
-    this.avatar = avatar; // Add avatar field
+    this.avatar = avatar;
   }
 
-  async save() {
+  static async create(userData) {
     const { db } = dbClient;
-    const result = await db.collection(USERS_COLLECTION).insertOne(this);
+    const result = await db.collection(USERS_COLLECTION).insertOne(userData);
     return result.insertedId;
   }
 
-  static async findByEmail(email) {
+  static async findAll() {
     const { db } = dbClient;
-    return db.collection(USERS_COLLECTION).findOne({ email });
+    return db.collection(USERS_COLLECTION).find().toArray();
   }
 
   static async findById(id) {
@@ -42,7 +41,7 @@ class User {
     const { db } = dbClient;
     const result = await db.collection(USERS_COLLECTION).updateOne(
       { _id: dbClient.ObjectID(id) },
-      { $set: newData },
+      { $set: newData }
     );
     return result.modifiedCount > 0;
   }
@@ -51,6 +50,27 @@ class User {
     const { db } = dbClient;
     const result = await db.collection(USERS_COLLECTION).deleteOne({ _id: dbClient.ObjectID(id) });
     return result.deletedCount > 0;
+  }
+
+  static async uploadProfilePicture(userId, avatarPath) {
+    const { db } = dbClient;
+    const result = await db.collection(USERS_COLLECTION).updateOne(
+      { _id: dbClient.ObjectID(userId) },
+      { $set: { avatar: avatarPath } }
+    );
+    return result.modifiedCount > 0;
+  }
+
+  static async findById(id) {
+    const { db } = dbClient;
+    return db.collection(USERS_COLLECTION).findOne({ _id: dbClient.ObjectID(id) });
+  }
+
+  // Add method to check if user is admin
+  static async isAdmin(userId) {
+    const { db } = dbClient;
+    const user = await db.collection(USERS_COLLECTION).findOne({ _id: dbClient.ObjectID(userId) });
+    return user && user.isAdmin; // Ensure 'isAdmin' field is part of the user document
   }
 }
 
