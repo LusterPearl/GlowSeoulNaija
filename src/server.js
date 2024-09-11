@@ -8,6 +8,7 @@ import routes from './routes/index.js';
 import dbClient from './config/db.js';
 import redisClient from './config/redis.js';
 import errorHandler from './middleware/errorHandler.js';
+import authenticate from './middleware/authMiddleware.js';
 import cookieParser from 'cookie-parser';
 
 // Load environment variables from .env file
@@ -38,6 +39,12 @@ app.use('/', routes);
 
 // Cookie Parsing Middleware
 app.use(cookieParser());
+
+// Routes
+app.use('/protected', authenticate, (req, res) => {
+  res.send('You have access to this protected route');
+});
+
 
 // Error handling middleware after all routes
 app.use(errorHandler);

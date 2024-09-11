@@ -8,6 +8,8 @@ import { verifyToken, isTokenBlacklisted } from '../config/jwt.js';
  */
 const authenticate = async (req, res, next) => {
   try {
+    console.log('Cookies:', req.cookies); // Add this line for debugging
+
     // Extract the token from cookies
     const token = req.cookies.token;
 

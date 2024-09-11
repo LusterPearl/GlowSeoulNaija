@@ -148,3 +148,15 @@
 2024-09-11T09:41:20.225Z [[32minfo[39m]: MongoDB URI:
 2024-09-11T09:41:20.312Z [[32minfo[39m]: Loaded Stripe Secret Key in server.js: sk_test_51Pb04SRqiqspksZPLGJjsw6tA0HuWfUj5UL5jvK1dfE3du6xhstk2qbmAtkGXyTJd9VMSxmAiWLNCOaRidG67NDH00PDmFM9KV
 2024-09-11T09:41:20.488Z [[32minfo[39m]: MongoDB connected successfully
+2024-09-11T10:32:40.769Z [[32minfo[39m]: MongoDB URI:
+2024-09-11T10:32:40.919Z [[32minfo[39m]: Loaded Stripe Secret Key in server.js: sk_test_51Pb04SRqiqspksZPLGJjsw6tA0HuWfUj5UL5jvK1dfE3du6xhstk2qbmAtkGXyTJd9VMSxmAiWLNCOaRidG67NDH00PDmFM9KV
+2024-09-11T10:32:41.162Z [[32minfo[39m]: MongoDB connected successfully
+2024-09-11T10:36:02.279Z [[32minfo[39m]: MongoDB URI:
+2024-09-11T10:36:02.423Z [[32minfo[39m]: Loaded Stripe Secret Key in server.js: sk_test_51Pb04SRqiqspksZPLGJjsw6tA0HuWfUj5UL5jvK1dfE3du6xhstk2qbmAtkGXyTJd9VMSxmAiWLNCOaRidG67NDH00PDmFM9KV
+2024-09-11T10:36:02.765Z [[32minfo[39m]: MongoDB connected successfully
+2024-09-11T10:36:09.298Z [[32minfo[39m]: MongoDB URI:
+2024-09-11T10:36:09.409Z [[32minfo[39m]: Loaded Stripe Secret Key in server.js: sk_test_51Pb04SRqiqspksZPLGJjsw6tA0HuWfUj5UL5jvK1dfE3du6xhstk2qbmAtkGXyTJd9VMSxmAiWLNCOaRidG67NDH00PDmFM9KV
+2024-09-11T10:36:09.614Z [[32minfo[39m]: MongoDB connected successfully
+2024-09-11T11:15:08.157Z [[32minfo[39m]: MongoDB URI:
+2024-09-11T11:15:08.244Z [[32minfo[39m]: Loaded Stripe Secret Key in server.js: sk_test_51Pb04SRqiqspksZPLGJjsw6tA0HuWfUj5UL5jvK1dfE3du6xhstk2qbmAtkGXyTJd9VMSxmAiWLNCOaRidG67NDH00PDmFM9KV
+2024-09-11T11:15:08.392Z [[32minfo[39m]: MongoDB connected successfully
