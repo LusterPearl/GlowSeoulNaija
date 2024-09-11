@@ -8,6 +8,7 @@ import routes from './routes/index.js';
 import dbClient from './config/db.js';
 import redisClient from './config/redis.js';
 import errorHandler from './middleware/errorHandler.js';
+import cookieParser from 'cookie-parser';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -34,6 +35,9 @@ app.use(bodyParser.json()); // Use body-parser's JSON parser if needed for other
 
 // Route handling
 app.use('/', routes);
+
+// Cookie Parsing Middleware
+app.use(cookieParser());
 
 // Error handling middleware after all routes
 app.use(errorHandler);

@@ -61,11 +61,6 @@ class User {
     return result.modifiedCount > 0;
   }
 
-  static async findById(id) {
-    const { db } = dbClient;
-    return db.collection(USERS_COLLECTION).findOne({ _id: dbClient.ObjectID(id) });
-  }
-
   // Add method to check if user is admin
   static async isAdmin(userId) {
     const { db } = dbClient;
