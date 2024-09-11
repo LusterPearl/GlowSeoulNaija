@@ -8,10 +8,11 @@ import { verifyToken, isTokenBlacklisted } from '../config/jwt.js';
  */
 const authenticate = async (req, res, next) => {
   try {
-    console.log('Cookies:', req.cookies); // Add this line for debugging
+    console.log('Cookies:', req.cookies); // Debugging log
 
     // Extract the token from cookies
-    const token = req.cookies.token;
+    const token = req.cookies ? req.cookies.token : null;
+    console.log('Token:', token); // Debugging log
 
     // If no token is present, deny access
     if (!token) {
