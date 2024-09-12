@@ -1,22 +1,27 @@
 import { verifyToken, isTokenBlacklisted } from '../config/jwt.js';
 
 /**
- * Middleware to authenticate incoming requests using JWT stored in cookies.
+ * Middleware to authenticate incoming requests using JWT.
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
  * @param {Function} next - The next function to call in the middleware chain.
  */
 const authenticate = async (req, res, next) => {
   try {
-    console.log('Cookies:', req.cookies); // Debugging log
+    // Extract Authorization header
+    const authHeader = req.header('Authorization');
 
-    // Extract the token from cookies
-    const token = req.cookies ? req.cookies.token : null;
-    console.log('Token:', token); // Debugging log
+    // Check if Authorization header is present and starts with 'Bearer '
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).send({ message: 'Missing or invalid Authorization header' });
+    }
+
+    // Extract the token from the Authorization header
+    const token = authHeader.replace('Bearer ', '');
 
     // If no token is present, deny access
     if (!token) {
-      return res.status(401).send({ message: 'Access Denied. No token provided.' });
+      return res.status(401).send({ message: 'Access Denied' });
     }
 
     // Check if the token is blacklisted

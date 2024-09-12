@@ -8,8 +8,6 @@ import routes from './routes/index.js';
 import dbClient from './config/db.js';
 import redisClient from './config/redis.js';
 import errorHandler from './middleware/errorHandler.js';
-import authenticate from './middleware/authMiddleware.js';
-import cookieParser from 'cookie-parser';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -30,30 +28,12 @@ const corsOptions = {
 };
 app.use(cors(corsOptions)); // Use CORS middleware
 
-// Cookie Parsing Middleware
-app.use(cookieParser());
-app.use(cookieParser());
-app.use((req, res, next) => {
-  res.cookie('token', 'your_token_here', {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // Automatically set based on environment
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
-  });
-  next();
-});
-
 // Middleware to parse JSON
 app.use(express.json()); // Use express's built-in JSON parser
 app.use(bodyParser.json()); // Use body-parser's JSON parser if needed for other parsing options
 
 // Route handling
 app.use('/', routes);
-
-// Routes
-app.use('/protected', authenticate, (req, res) => {
-  res.send('You have access to this protected route');
-});
-
 
 // Error handling middleware after all routes
 app.use(errorHandler);
