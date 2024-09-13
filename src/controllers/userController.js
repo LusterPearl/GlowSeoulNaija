@@ -56,46 +56,52 @@ class UserController {
   }
 
   // POST: Upload a new profile picture
-  static async uploadProfilePicture(req, res) {
-    upload(req, res, async function (err) {
-      if (err) {
-        return res.status(400).json({ message: err.message });
-      }
-
-      const userId = req.params.userId;
-      const profilePicturePath = req.file.path;
-
-      try {
-        const updated = await User.update(userId, { profilePicture: profilePicturePath });
-        if (updated) {
-          return res.json({ message: 'Profile picture uploaded successfully.', path: profilePicturePath });
-        }
-        return res.status(404).json({ message: 'User not found.' });
-      } catch (error) {
-        return res.status(500).json({ message: 'Error uploading profile picture.', error });
-      }
-    });
-  }
-
-  // PUT: Update an existing profile picture
-  static async updateProfilePicture(req, res) {
-    const userId = req.params.userId;
-    const { imageFileOrUrl } = req.body;
-
-    if (!imageFileOrUrl) {
-      return res.status(400).json({ message: 'Profile picture is required.' });
+static async uploadProfilePicture(req, res) {
+  // Handling file upload with middleware
+  upload(req, res, async function (err) {
+    if (err) {
+      return res.status(400).json({ message: err.message });
     }
 
+    const userId = req.params.userId;
+    const profilePicturePath = req.file.path; // Accessing the uploaded file path
+
     try {
-      const updated = await User.update(userId, { profilePicture: imageFileOrUrl });
+      // Update the user's profile picture path in the database
+      const updated = await User.update(userId, { profilePicture: profilePicturePath });
       if (updated) {
-        return res.json({ message: 'Profile picture updated successfully.' });
+        return res.json({ message: 'Profile picture uploaded successfully.', path: profilePicturePath });
+      }
+      return res.status(404).json({ message: 'User not found.' });
+    } catch (error) {
+      return res.status(500).json({ message: 'Error uploading profile picture.', error });
+    }
+  });
+}
+
+// PUT: Update an existing profile picture
+static async updateProfilePicture(req, res) {
+  // Handling file upload with middleware
+  upload(req, res, async function (err) {
+    if (err) {
+      return res.status(400).json({ message: err.message });
+    }
+
+    const userId = req.params.userId;
+    const profilePicturePath = req.file.path; // Accessing the uploaded file path
+
+    try {
+      // Update the user's profile picture path in the database
+      const updated = await User.update(userId, { profilePicture: profilePicturePath });
+      if (updated) {
+        return res.json({ message: 'Profile picture updated successfully.', path: profilePicturePath });
       }
       return res.status(404).json({ message: 'User not found.' });
     } catch (error) {
       return res.status(500).json({ message: 'Error updating profile picture.', error });
     }
-  }
+  });
+}
 
   // Endpoint to create a new user profile (POST)
   static async createUserProfile(req, res) {
