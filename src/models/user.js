@@ -37,6 +37,11 @@ class User {
     return db.collection(USERS_COLLECTION).findOne({ _id: dbClient.ObjectID(id) });
   }
 
+  static async findOne(query) {
+    const { db } = dbClient;
+    return db.collection(USERS_COLLECTION).findOne(query);
+  }
+
   static async update(id, newData) {
     const { db } = dbClient;
     const result = await db.collection(USERS_COLLECTION).updateOne(
@@ -59,13 +64,6 @@ class User {
       { $set: { avatar: avatarPath } }
     );
     return result.modifiedCount > 0;
-  }
-
-  // Add method to check if user is admin
-  static async isAdmin(userId) {
-    const { db } = dbClient;
-    const user = await db.collection(USERS_COLLECTION).findOne({ _id: dbClient.ObjectID(userId) });
-    return user && user.isAdmin; // Ensure 'isAdmin' field is part of the user document
   }
 }
 
