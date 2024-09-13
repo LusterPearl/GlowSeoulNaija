@@ -76,8 +76,8 @@ router.put('/profile', authenticate, UserController.updateProfile);
 router.delete('/profile', authenticate, UserController.deleteProfile);
 
 // Profile Picture Management
-router.post('/profile/:userId/profile-picture', authenticate, UserController.uploadProfilePicture);  // Upload a new profile picture
-router.put('/profile/:userId/profile-picture', authenticate, UserController.updateProfilePicture);   // Update an existing profile picture
+router.post('/profile/profile-picture', authenticate, UserController.uploadProfilePicture);  // Upload a new profile picture
+router.put('/profile/profile-picture', authenticate, UserController.updateProfilePicture);   // Update an existing profile picture
 
 // User Information Management (Username and Email)
 router.post('/profile', authenticate, UserController.createUserProfile);                           // Create a new user profile
