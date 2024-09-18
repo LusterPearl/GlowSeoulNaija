@@ -7,7 +7,7 @@ import logger from './logger.js';
 const { MONGO_URI } = process.env;
 
 // Log the MongoDB URI
-logger.info('MongoDB URI:', MONGO_URI); // Log the URI for tracking (make sure not to expose sensitive info in production)
+logger.info('MongoDB URI:', MONGO_URI); // Log the URI for tracking (make sure not to expose sensitive)
 
 class DBClient extends EventEmitter {
   constructor() {
