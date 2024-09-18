@@ -1,4 +1,0 @@
-2024-09-02T10:22:53.875Z [[31merror[39m]: Failed to connect to MongoDB: connect ECONNREFUSED 127.0.0.1:27017
-2024-09-02T12:16:48.804Z [[31merror[39m]: Failed to connect to MongoDB: connect ECONNREFUSED 127.0.0.1:27017
-2024-09-02T12:16:48.807Z [[31merror[39m]: MongoDB Connection Error: connect ECONNREFUSED 127.0.0.1:27017
-2024-09-03T14:50:29.011Z [[31merror[39m]: Failed to connect to MongoDB: connect ECONNREFUSED 127.0.0.1:27017

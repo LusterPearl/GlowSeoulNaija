@@ -1,5 +1,7 @@
 import express from 'express';
 import { body, validationResult } from 'express-validator';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import authenticate from '../middleware/authMiddleware.js';
 import createPaymentIntent from '../controllers/paymentController.js';
 import AuthController from '../controllers/authController.js';
@@ -11,6 +13,17 @@ import upload from '../middleware/uploadMiddleware.js';
 
 
 const router = express.Router();
+
+// Define __filename and __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+router.get('/uploads/:filename', (req, res) => {
+  const { filename } = req.params;
+  const filePath = path.join(__dirname, 'uploads', filename);  // Point to 'uploads' inside 'src'
+  res.sendFile(filePath);
+});
+
 
 // Middleware to log when the register endpoint is hit
 const logRegisterHit = (req, res, next) => {

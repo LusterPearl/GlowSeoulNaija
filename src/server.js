@@ -2,12 +2,18 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import path from 'path';
 import bodyParser from 'body-parser';
 import logger from './config/logger.js';
 import routes from './routes/index.js';
 import dbClient from './config/db.js';
 import redisClient from './config/redis.js';
 import errorHandler from './middleware/errorHandler.js';
+
+// Define __filename and __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load environment variables from .env file
 dotenv.config();
@@ -24,9 +30,17 @@ const port = process.env.PORT || 5001;
 // Configure CORS
 const corsOptions = {
   origin: 'http://localhost:3000', // Allow requests from this origin
+  methods: ['GET', 'POST', 'PUT'],
+  credentials: true,
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions)); // Use CORS middleware
+
+// Set static directory for serving files (e.g., uploads)
+app.use('/uploads', express.static(path.join(__dirname, 'routes', 'uploads')));
+
+
+// Set static directory for serving files (e.g., uploads)
 
 // Middleware to parse JSON
 app.use(express.json()); // Use express's built-in JSON parser
