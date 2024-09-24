@@ -1,5 +1,7 @@
 import express from 'express';
 import { body, validationResult } from 'express-validator';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import authenticate from '../middleware/authMiddleware.js';
 import createPaymentIntent from '../controllers/paymentController.js';
 import AuthController from '../controllers/authController.js';
@@ -7,14 +9,48 @@ import UserController from '../controllers/userController.js';
 import ProductController from '../controllers/productController.js';
 import OrderController from '../controllers/orderController.js';
 import handleWebhook from '../controllers/webhookController.js';
+import upload from '../middleware/uploadMiddleware.js';
+
 
 const router = express.Router();
+
+// Define __filename and __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+router.get('/uploads/:filename', (req, res) => {
+  const { filename } = req.params;
+  const filePath = path.join(__dirname, 'uploads', filename);  // Point to 'uploads' inside 'src'
+  res.sendFile(filePath);
+});
+
 
 // Middleware to log when the register endpoint is hit
 const logRegisterHit = (req, res, next) => {
   console.log('Register endpoint hit');
   next(); // Proceed to the next middleware/controller
 };
+
+// Route to handle profile picture upload
+router.post('/api/users/:userId/profile-picture', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    // Save the file path or URL to the database as needed
+    res.status(200).json({ message: 'Profile picture uploaded successfully.', filePath: req.file.path });
+  });
+});
+
+// Middleware to serve profile pictures securely
+router.get('/uploads/:filename', (req, res) => {
+  const { filename } = req.params;
+  const filePath = path.join(__dirname, '../uploads', filename);
+
+  // You can add more security checks here, e.g., check if the user is authorized to access the file
+  res.sendFile(filePath);
+});
+
 
 // Protected route
 router.get('/test-auth', authenticate, (req, res) => {
@@ -51,6 +87,15 @@ router.post('/logout', authenticate, AuthController.logout);
 router.get('/profile', authenticate, UserController.getProfile);
 router.put('/profile', authenticate, UserController.updateProfile);
 router.delete('/profile', authenticate, UserController.deleteProfile);
+
+// Profile Picture Management
+router.post('/profile/:userId/profile-picture', authenticate, UserController.uploadProfilePicture);  // Upload a new profile picture
+router.put('/profile/:userId/profile-picture', authenticate, UserController.updateProfilePicture);   // Update an existing profile picture
+
+// User Information Management (Username and Email)
+router.post('/profile', authenticate, UserController.createUserProfile);                           // Create a new user profile
+router.put('/profile/:userId', authenticate, UserController.replaceUserProfile);                    // Replace both username and email
+router.patch('/profile/:userId', authenticate, UserController.updateUserProfile);   
 
 // Product Management
 router.post('/products', authenticate, ProductController.createProduct);
