@@ -2,7 +2,7 @@
 import pkg from 'mongodb';
 const { MongoClient, ObjectId } = pkg;
 import EventEmitter from 'events';
-import logger from './logger.js'; // Import the logger
+import logger from './logger.js';
 
 const { MONGO_URI } = process.env;
 
@@ -33,20 +33,62 @@ class DBClient extends EventEmitter {
     return !!this.db;
   }
 
-  // Handles Users
+  // User operations
   async allUsers() {
     try {
-      const count = await this.db
-        .collection('users')
-        .countDocuments();
-      logger.info(`Fetched user count: ${count}`); // Log user count fetched
-      return count;
+      const users = await this.db.collection('users').find().toArray(); // Fetch all users
+      logger.info(`Fetched ${users.length} users`); // Log the number of users fetched
+      return users;
     } catch (error) {
-      logger.error('Error fetching user count:', error); // Log error details
+      logger.error('Error fetching users:', error);
       throw error;
     }
   }
-  
+
+  async getUserById(userId) {
+    try {
+      const user = await this.db.collection('users').findOne({ _id: ObjectId(userId) }); // Fetch user by ID
+      logger.info(`Fetched user by ID: ${userId}`);
+      return user;
+    } catch (error) {
+      logger.error('Error fetching user by ID:', error);
+      throw error;
+    }
+  }
+
+  async createUser(userData) {
+    try {
+      const result = await this.db.collection('users').insertOne(userData); // Create a new user
+      logger.info(`Created user with ID: ${result.insertedId}`);
+      return result.insertedId;
+    } catch (error) {
+      logger.error('Error creating user:', error);
+      throw error;
+    }
+  }
+
+  async updateUser(userId, userData) {
+    try {
+      const result = await this.db.collection('users').updateOne({ _id: ObjectId(userId) }, { $set: userData }); // Update user
+      logger.info(`Updated user ID: ${userId}`);
+      return result.modifiedCount > 0; // Return true if user was updated
+    } catch (error) {
+      logger.error('Error updating user:', error);
+      throw error;
+    }
+  }
+
+  async deleteUser(userId) {
+    try {
+      const result = await this.db.collection('users').deleteOne({ _id: ObjectId(userId) }); // Delete user
+      logger.info(`Deleted user ID: ${userId}`);
+      return result.deletedCount > 0; // Return true if user was deleted
+    } catch (error) {
+      logger.error('Error deleting user:', error);
+      throw error;
+    }
+  }
+
   // Handles Products
   async allProducts() {
     try {
@@ -170,6 +212,29 @@ class DBClient extends EventEmitter {
 
   ObjectID(id) {
     return new ObjectId(id);
+  }
+
+ // Generic operations for other collections
+  async create(collectionName, data) {
+    try {
+      const result = await this.db.collection(collectionName).insertOne(data); // Insert new document
+      logger.info(`Inserted new document into ${collectionName}: ${result.insertedId}`);
+      return result.insertedId; // Return the inserted ID
+    } catch (error) {
+      logger.error(`Error inserting into ${collectionName}:`, error);
+      throw error;
+    }
+  }
+
+  async update(collectionName, id, updateData) {
+    try {
+      const result = await this.db.collection(collectionName).updateOne({ _id: new ObjectId(id) }, { $set: updateData }); // Update document
+      logger.info(`Updated document with ID ${id} in ${collectionName}`);
+      return result.modifiedCount > 0; // Return true if document was updated
+    } catch (error) {
+      logger.error(`Error updating ${collectionName}:`, error);
+      throw error;
+    }
   }
 }
 

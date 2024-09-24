@@ -1,3 +1,60 @@
+// user.js
+import dbClient from '../config/db.js';
+
+const USERS_COLLECTION = 'users';
+
+class User {
+  constructor({
+    username,
+    email,
+    password,
+    firstName = '',
+    lastName = '',
+    address = '',
+    avatar = '', // Add avatar field
+  }) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.address = address;
+    this.avatar = avatar; // Add avatar field
+  }
+
+  // Rename save to create
+  static async create(userData) {
+    const { db } = dbClient;
+    const result = await db.collection(USERS_COLLECTION).insertOne(userData);
+    return result.insertedId;
+  }
+
+  // Use this method to update user
+  static async findById(id) {
+    const { db } = dbClient;
+    return db.collection(USERS_COLLECTION).findOne({ _id: dbClient.ObjectID(id) });
+  }
+
+  static async update(id, newData) {
+    const { db } = dbClient;
+    const result = await db.collection(USERS_COLLECTION).updateOne(
+      { _id: dbClient.ObjectID(id) },
+      { $set: newData },
+    );
+    return result.modifiedCount > 0;
+  }
+
+  static async delete(id) {
+    const { db } = dbClient;
+    const result = await db.collection(USERS_COLLECTION).deleteOne({ _id: dbClient.ObjectID(id) });
+    return result.deletedCount > 0;
+  }
+}
+
+export default User;
+
+
+
 import User from '../models/user.js';
 import validator from 'validator'; 
 import upload from '../middleware/uploadMiddleware.js';
@@ -56,52 +113,46 @@ class UserController {
   }
 
   // POST: Upload a new profile picture
-static async uploadProfilePicture(req, res) {
-  // Handling file upload with middleware
-  upload(req, res, async function (err) {
-    if (err) {
-      return res.status(400).json({ message: err.message });
-    }
-
-    const userId = req.params.userId;
-    const profilePicturePath = req.file.path; // Accessing the uploaded file path
-
-    try {
-      // Update the user's profile picture path in the database
-      const updated = await User.update(userId, { profilePicture: profilePicturePath });
-      if (updated) {
-        return res.json({ message: 'Profile picture uploaded successfully.', path: profilePicturePath });
+  static async uploadProfilePicture(req, res) {
+    upload(req, res, async function (err) {
+      if (err) {
+        return res.status(400).json({ message: err.message });
       }
-      return res.status(404).json({ message: 'User not found.' });
-    } catch (error) {
-      return res.status(500).json({ message: 'Error uploading profile picture.', error });
-    }
-  });
-}
 
-// PUT: Update an existing profile picture
-static async updateProfilePicture(req, res) {
-  // Handling file upload with middleware
-  upload(req, res, async function (err) {
-    if (err) {
-      return res.status(400).json({ message: err.message });
-    }
+      const userId = req.params.userId;
+      const profilePicturePath = req.file.path;
 
+      try {
+        const updated = await User.update(userId, { profilePicture: profilePicturePath });
+        if (updated) {
+          return res.json({ message: 'Profile picture uploaded successfully.', path: profilePicturePath });
+        }
+        return res.status(404).json({ message: 'User not found.' });
+      } catch (error) {
+        return res.status(500).json({ message: 'Error uploading profile picture.', error });
+      }
+    });
+  }
+
+  // PUT: Update an existing profile picture
+  static async updateProfilePicture(req, res) {
     const userId = req.params.userId;
-    const profilePicturePath = req.file.path; // Accessing the uploaded file path
+    const { imageFileOrUrl } = req.body;
+
+    if (!imageFileOrUrl) {
+      return res.status(400).json({ message: 'Profile picture is required.' });
+    }
 
     try {
-      // Update the user's profile picture path in the database
-      const updated = await User.update(userId, { profilePicture: profilePicturePath });
+      const updated = await User.update(userId, { profilePicture: imageFileOrUrl });
       if (updated) {
-        return res.json({ message: 'Profile picture updated successfully.', path: profilePicturePath });
+        return res.json({ message: 'Profile picture updated successfully.' });
       }
       return res.status(404).json({ message: 'User not found.' });
     } catch (error) {
       return res.status(500).json({ message: 'Error updating profile picture.', error });
     }
-  });
-}
+  }
 
   // Endpoint to create a new user profile (POST)
   static async createUserProfile(req, res) {
@@ -166,5 +217,19 @@ static async updateProfilePicture(req, res) {
     }
   };
 }
+//export default User;
 
-export default UserController;
+
+// Handles Users
+// async allUsers() {
+  try {
+    const count = await this.db
+      .collection('users')
+      .countDocuments();
+    logger.info(`Fetched user count: ${count}`); // Log user count fetched
+    return count;
+  } catch (error) {
+    logger.error('Error fetching user count:', error); // Log error details
+    throw error;
+  }
+//}
